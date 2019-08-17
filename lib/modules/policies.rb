@@ -1,7 +1,7 @@
-require_relative '../nessus_api/request'
+# require_relative '../nessus_api/request'
 
 module NessusApi::Policies
   def policies
-    NessusApi::Request.get( "/policies" )
+    self.request.get( "/policies" )
   end
 end
