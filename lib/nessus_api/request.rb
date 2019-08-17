@@ -8,32 +8,36 @@ class NessusApi
   
   class Request
     # attr_accessor :headers
-    attr_reader   :url
+    attr_reader   :url, :headers
 
-    @headers = {
+    DEFAULT_HEADERS = {
       "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
       "Content-Type" => "application/json"
     }
 
     def initialize( params )
-      params = {:uri => nil, :ssl_verify_peer => false}.merge( params )
+      params = {:uri => nil, :ssl_verify_peer => false, :headers => {} }.merge( params )
       @@ssl_verify_peer = params.fetch(:ssl_verify_peer)
       @url = @@url = NessusApi::Request.uri_parse( params.fetch(:uri) )
-    end
+      @headers = params.fetch( :headers ).merge( DEFAULT_HEADERS )
+    end 
 
-    def self.headers
-      @headers
+    # def self.headers
+    #   @@headers
+    # end
+    def headers=(value)
+      raise NotImplementedError.new("Use update from Hash insted.")
     end
  
-    def self.get( path=nil, payload=nil, query=nil )
+    def get( path=nil, payload=nil, query=nil )
       http_request( :get, path, payload, query )
     end
 
-    def self.post( path=nil, payload=nil, query=nil )
+    def post( path=nil, payload=nil, query=nil )
       http_request( :post, path, payload, query )
     end
 
-    def self.delete( path=nil, payload=nil, query=nil )
+    def delete( path=nil, payload=nil, query=nil )
       http_request( :delete, path, payload, query )
     end
 
@@ -45,7 +49,7 @@ class NessusApi
 
     private
 
-    def self.http_request( method=:get, path, payload, query )
+    def http_request( method=:get, path, payload, query )
       # binding.pry
       connection = Excon.new( @@url )
       
@@ -61,7 +65,7 @@ class NessusApi
         #proxy: "http://127.0.0.1:8080",
         expects: [200, 201]
       }
-      response = connection.request(options)
+      response = connection.request( options )
     
       return response.body if response.body.length > 0
 
