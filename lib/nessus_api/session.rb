@@ -9,8 +9,7 @@ class NessusApi
   class Session
     attr_reader :token, :api_token
 
-    @token      = nil
-    @api_token  = nil
+    @token = @api_token  = nil
 
     # @param [String] username
     # @param [String] password
@@ -27,7 +26,7 @@ class NessusApi
       if response['token']
          return self.new( response['token'] )
       else
-        raise NessusApi::Error.new "Response did not include a session token."
+        raise NessusApi::Error.new "#{__method__}::Response did not include a session token."
       end
 
     end
@@ -36,13 +35,13 @@ class NessusApi
       @token = token
     end
 
-    def get_api_token
+    def set_api_token
       response = NessusApi::Request.get( "/nessus6.js" )
       response.match( %r{return"(\w{8}-(?:\w{4}-){3}\w{12})"\}} )
       
-      @api_token = $1 ? $1 : nil
-
-      raise NessusApi::Error.new( "Unable to get API Token. Some features won't work." ) if @api_token.nil?
+      raise NessusApi::Error.new( "Unable to get API Token. Some features won't work." ) unless $1#.nil?
+      
+      @api_token = $1 
       
     end
 

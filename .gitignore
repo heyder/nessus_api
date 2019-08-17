@@ -18,4 +18,5 @@ bundle
 .bundle
 
 Gemfile.lock
+coverage/
 
