@@ -1,0 +1,21 @@
+._*
+.DS_Store
+*.gem
+*.log
+*.sqlite3
+*.sw?
+**/._*
+# Rubygems
+pkg
+
+rerun.txt
+# RVM
+.rvmrc
+.ruby-version
+
+# Bundler
+bundle
+.bundle
+
+Gemfile.lock
+
