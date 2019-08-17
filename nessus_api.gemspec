@@ -4,9 +4,9 @@ Gem::Specification.new do |spec|
   spec.author         = %q{Heyder}
   spec.version        = NessusApi::VERSION
   spec.date           = %q{2018-11-28}
-  spec.summary        = %q{Ruby wrapper to Nessus API}
+  spec.summary        = %q{Ruby wrapper for Nessus API}
   spec.licenses       = ['MIT']  
-  spec.description    = "Ruby wrapper to Nessus API (all verions)"
+  spec.description    = "Ruby wrapper for Nessus API (all verions)"
   spec.email          = 'eu@heyderandrade.org'
   spec.homepage       = 'https://rubygemspec.org/gems/nessus_api'
   spec.metadata       = { "source_code_uri" => "https://github.com/heyder/nessus_api" }
