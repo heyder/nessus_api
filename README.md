@@ -1,4 +1,4 @@
-NessusApi [![codecov](https://codecov.io/gh/heyder/nessus_api/branch/master/graph/badge.svg)](https://codecov.io/gh/heyder/nessus_api)
+NessusApi
 =========
 **Ruby wrapper for Nessus API**
 
