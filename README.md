@@ -1,4 +1,4 @@
-NessusApi [![Build Status](https://travis-ci.org/colszowka/simplecov.svg)][Continuous Integration] [![Code Climate](https://codeclimate.com/github/colszowka/simplecov.svg)](https://codeclimate.com/github/colszowka/simplecov) [![Inline docs](http://inch-ci.org/github/colszowka/simplecov.svg)](http://inch-ci.org/github/colszowka/simplecov)
+NessusApi [![codecov](https://codecov.io/gh/heyder/nessus_api/branch/master/graph/badge.svg)](https://codecov.io/gh/heyder/nessus_api)
 =========
 **Ruby wrapper for Nessus API**
 
