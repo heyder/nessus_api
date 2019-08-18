@@ -19,4 +19,4 @@ bundle
 
 Gemfile.lock
 coverage/
-
+.travis.yml
