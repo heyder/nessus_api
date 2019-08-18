@@ -27,7 +27,7 @@ Getting started
 ---------------
 
 ```ruby
-require 'nessus_rest'
+require 'nessus_client'
 
 nc = NessusClient.new(
   {
@@ -43,7 +43,7 @@ while true do
   if scan_status == "done"
     export_id = nc.export_request( scan_uuid )
     while true do
-      export_status = Oj.locad( nc.export_status( export_id ) )["status"]
+      export_status = Oj.load( nc.export_status( export_id ) )["status"]
       if export_status == "ready"
         open("scan_report", "wb") do |file|
           file.write(nc.export_download( scan_uuid ))
@@ -72,6 +72,7 @@ Or install it yourself as:
 ## Requirements
 
 Requirements are Exon for HTTP(S) and Oj parsing:
+
 ```ruby
 require 'excon'
 require 'oj'

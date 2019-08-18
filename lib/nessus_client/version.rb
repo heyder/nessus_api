@@ -1,3 +1,4 @@
 class NessusClient
-  VERSION = '0.1.0'
+  # The current version of the libary.
+  VERSION = '0.1.1'
 end
