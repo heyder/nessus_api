@@ -1,7 +1,7 @@
 NessusClient
 =========
 
-Usable, fast, simple Ruby gem for Tenable Nessus Pro v6.x, v7.x and v8.x
+Usable, fast, simple Ruby gem for Tenable Nessus Pro v6.x and v7.x
 
 NessusClient was designed to be simple, fast and performant through communication with Nessus over REST interface.
 
