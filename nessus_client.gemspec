@@ -10,6 +10,7 @@ Gem::Specification.new do |spec|
   spec.email          = 'eu@heyderandrade.org'
   spec.homepage       = 'https://rubygemspec.org/gems/nessus_client'
   spec.metadata       = { "source_code_uri" => "https://github.com/heyder/nessus_client" }
+  spec.metadata["yard.run"] = "yri"
   spec.extra_rdoc_files = ['README.md', 'CONTRIBUTING.md']
   spec.files          = Dir['lib/**/*.rb']
   spec.require_paths  = ["lib"]
@@ -22,6 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency( 'pry', '~> 0.12.2' )
   spec.add_development_dependency( 'simplecov', '~> 0.17.0' )
   spec.add_development_dependency( 'codecov', '~> 0.1.14' )
+  spec.add_development_dependency( 'yard', '~> 0.6' )
   
   
 end

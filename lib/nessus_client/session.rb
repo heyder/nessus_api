@@ -4,13 +4,16 @@ require_relative 'exception'
 
 class NessusClient
 
-  # This class should be used to get an access token
-  # for use with the main client class.
+  # Abstract base class for NessusClient Session. 
+  # @since 0.1.0
+  # @attr_reader [String] token autentication session token
+  # @attr_reader [String] api_token autentication API token
   class Session
     attr_reader :token, :api_token
 
     @token = @api_token  = nil
 
+    # Create a session and get its autentication token
     # @param [String] username
     # @param [String] password
     def self.create( username, password )
@@ -30,11 +33,12 @@ class NessusClient
       end
 
     end
-
+    # @param [String] authentication token 
     def initialize( token )      
       @token = token
     end
 
+    # Set the API Token from legacy Nessus version
     def set_api_token
       response = NessusClient::Request.get( "/nessus6.js" )
       response.match( %r{return"(\w{8}-(?:\w{4}-){3}\w{12})"\}} )
