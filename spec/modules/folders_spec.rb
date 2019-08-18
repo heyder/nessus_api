@@ -1,15 +1,16 @@
 require_relative '../spec_helper'
 
-describe NessusClient::Policies do
+describe NessusClient::Folders do
     before(:context) do
         @payload = {
-          uri: 'http://ness.us',
-          username: 'username',
-          password: 'password'
+          :uri => 'http://ness.us',
+          :username => 'username',
+          :password => 'password'
         }  
     end
     context ".list_folders" do
         it "successful list folders" do
+            
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/folders').and_return( 
                 {
                     "folders" => [
@@ -24,7 +25,7 @@ describe NessusClient::Policies do
                     ]
                 }.to_json
             )
-            allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new( 'mock_auth_cookie' ) )
+            allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
@@ -37,7 +38,7 @@ describe NessusClient::Policies do
     context ".create_folder" do
         it "successful create folder" do
             allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( '/folders',  {:name => 'mock_folder_name' }.to_json ).and_return( { id: 55 }.to_json )
-            allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new( 'mock_auth_cookie' ) )
+            allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
