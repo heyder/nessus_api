@@ -1,13 +1,10 @@
 require 'excon'
 require 'json'
-# require 'pry'
+
 class NessusClient
 
-  # Excon.defaults[:ssl_verify_peer] = false
-  # This class should be used to in all requests classes
-  
   class Request
-    # attr_accessor :headers
+
     attr_reader   :url, :headers
 
     DEFAULT_HEADERS = {
@@ -22,9 +19,6 @@ class NessusClient
       @headers = params.fetch( :headers ).merge( DEFAULT_HEADERS )
     end 
 
-    # def self.headers
-    #   @@headers
-    # end
     def headers=(value)
       raise NotImplementedError.new("Use update from Hash insted.")
     end
@@ -50,7 +44,7 @@ class NessusClient
     private
 
     def http_request( method=:get, path, payload, query )
-      # binding.pry
+      
       connection = Excon.new( @@url )
       
       body = payload ? payload.to_json : ''
@@ -61,8 +55,6 @@ class NessusClient
         query: query,
         headers: @headers,
         ssl_verify_peer: @@ssl_verify_peer,
-        #idempotent: true,
-        #proxy: "http://127.0.0.1:8080",
         expects: [200, 201]
       }
       response = connection.request( options )
