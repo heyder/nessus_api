@@ -1,4 +1,5 @@
-NessusApi
+NessusApi [![Gem Version](https://badge.fury.io/rb/nessus_client.svg)](https://badge.fury.io/rb/nessus_client) [![codecov](https://codecov.io/gh/heyder/nessus_api/branch/master/graph/badge.svg)](https://codecov.io/gh/heyder/nessus_api)
+
 =========
 **Ruby wrapper for Nessus API**
 
