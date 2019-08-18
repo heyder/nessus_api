@@ -20,3 +20,4 @@ bundle
 Gemfile.lock
 coverage/
 .travis.yml
+.codecov.yml
