@@ -23,7 +23,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency( 'pry', '~> 0.12.2' )
   spec.add_development_dependency( 'simplecov', '~> 0.17.0' )
   spec.add_development_dependency( 'codecov', '~> 0.1.14' )
-  spec.add_development_dependency( 'yard', '~> 0.6' )
+  spec.add_development_dependency( "yard", ">= 0.9.20")
   
   
 end
