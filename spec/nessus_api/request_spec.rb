@@ -1,36 +1,36 @@
 
 require_relative '../spec_helper'
 
-describe NessusApi::Request do
+describe NessusClient::Request do
 
   before(:context) do
-    @nessus_request = NessusApi::Request.new( {:uri => 'http://ness.us'} )    
+    @nessus_request = NessusClient::Request.new( {:uri => 'http://ness.us'} )    
   end
 
   context "initialize" do
     it "when valid uri" do
-      expect( NessusApi::Request.new( {:uri => 'http://ness.us'} ) ).to be_instance_of( NessusApi::Request )
+      expect( NessusClient::Request.new( {:uri => 'http://ness.us'} ) ).to be_instance_of( NessusClient::Request )
     end
 
     it "when no uri, should raise ArgumentError exception" do
-      expect { NessusApi::Request.new }.to raise_error( ArgumentError )
+      expect { NessusClient::Request.new }.to raise_error( ArgumentError )
     end
 
     it "when nil on into initialize, should raise TypeError exception" do
-      expect { NessusApi::Request.new( nil ) }.to raise_error( TypeError )
+      expect { NessusClient::Request.new( nil ) }.to raise_error( TypeError )
     end
 
     it "when uri is nil, should raise URI::InvalidURIError exception" do
-      expect { NessusApi::Request.new( {:uri => nil} ) }.to raise_error( URI::InvalidURIError )
+      expect { NessusClient::Request.new( {:uri => nil} ) }.to raise_error( URI::InvalidURIError )
     end
   end
 
   context ".url" do
     it "can NOT read from class method" do
-      expect{ NessusApi::Request.url }.to raise_error( NoMethodError )
+      expect{ NessusClient::Request.url }.to raise_error( NoMethodError )
     end
     it "can NOT write from class method" do
-      expect{ NessusApi::Request.url="none" }.to raise_error( NoMethodError )
+      expect{ NessusClient::Request.url="none" }.to raise_error( NoMethodError )
     end    
     it "can read from instance method" do
       # read
@@ -44,17 +44,17 @@ describe NessusApi::Request do
 
   context ".headers" do
     it "can NOT read/write from class method" do
-      expect{ NessusApi::Request.headers }.to raise_error( NoMethodError )
+      expect{ NessusClient::Request.headers }.to raise_error( NoMethodError )
     end
     
     it "can read from instance method" do
-      req = NessusApi::Request.new( { :uri => 'http://ness.us' } ) 
+      req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
       # read
       expect( req.headers ).to be_instance_of( Hash )
     end
 
     it "can write from instance method" do
-      req = NessusApi::Request.new( { :uri => 'http://ness.us' } ) 
+      req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
       # "Use update from Hash insted."
       expect{ req.headers=nil }.to raise_error( NotImplementedError )
       req.headers.update({:key1 => 'value1'})
@@ -62,7 +62,7 @@ describe NessusApi::Request do
     end
 
     it "still default" do
-      req = NessusApi::Request.new( { :uri => 'http://ness.us' } ) 
+      req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
       # hard coded default header
       default_header = {
         "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
@@ -75,11 +75,11 @@ describe NessusApi::Request do
 
   context ".get" do
     # it "response has a body" do
-    #   allow( NessusApi::Request ).to receive( :get ).and_return( "RESPONSE_BODY" )
-    #   expect( NessusApi::Request.get ).to eq( "RESPONSE_BODY" )
+    #   allow( NessusClient::Request ).to receive( :get ).and_return( "RESPONSE_BODY" )
+    #   expect( NessusClient::Request.get ).to eq( "RESPONSE_BODY" )
     # end
     it "default request/response" do
-      allow_any_instance_of( NessusApi::Request ).to receive( :get ).and_return( "RESPONSE_BODY"  )
+      allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( "RESPONSE_BODY"  )
       expect( @nessus_request.get ).to eq( "RESPONSE_BODY" )
     end
 
@@ -108,7 +108,7 @@ describe NessusApi::Request do
   context ".post" do
 
     it "request with no parameters" do
-      allow_any_instance_of( NessusApi::Request ).to receive( :post ).and_return( "RESPONSE_BODY" )
+      allow_any_instance_of( NessusClient::Request ).to receive( :post ).and_return( "RESPONSE_BODY" )
       expect( @nessus_request.post ).to eq( "RESPONSE_BODY" )
     end
     it "request with json data" do
@@ -119,7 +119,7 @@ describe NessusApi::Request do
 
   context ".delete" do
     it "request with no parameters" do
-      allow_any_instance_of( NessusApi::Request ).to receive( :delete ).and_return( "RESPONSE_BODY" )
+      allow_any_instance_of( NessusClient::Request ).to receive( :delete ).and_return( "RESPONSE_BODY" )
       expect( @nessus_request.delete ).to eq( "RESPONSE_BODY" )
     end
     it "request with json data" do

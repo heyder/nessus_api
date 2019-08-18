@@ -1,5 +1,5 @@
 
-module NessusApi::Scans
+module NessusClient::Scans
 
   def list_scans( folder_id=nil )
     query = folder_id.nil? ? nil : { "folder_id" => folder_id }

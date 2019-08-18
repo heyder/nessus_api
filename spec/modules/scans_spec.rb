@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe NessusApi::Scans do
+describe NessusClient::Scans do
     before(:context) do
         @payload = {
           uri: 'http://ness.us',
@@ -10,7 +10,7 @@ describe NessusApi::Scans do
     end
     context ".list_scans" do
         it "successful list scans" do
-            allow_any_instance_of( NessusApi::Request ).to receive( :get ).with( '/scans', nil, nil ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/scans', nil, nil ).and_return( 
                 {
                     folders:[
                         0 => {
@@ -48,11 +48,11 @@ describe NessusApi::Scans do
                     "timestamp":1544146142
                 }.to_json
             )
-            allow( NessusApi::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusApi::Session.new( 'mock_auth_cookie' ) )
-            allow_any_instance_of( NessusApi ).to receive(:new).and_return(  NessusApi.new( @payload ) )
+            allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new( 'mock_auth_cookie' ) )
+            allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
-            nessus_api = NessusApi.new( @payload )
-            scans = Oj.load( nessus_api.scans )
+            nessus_client = NessusClient.new( @payload )
+            scans = Oj.load( nessus_client.scans )
       
             expect( scans ).to have_key( 'scans' )
             expect( scans["scans"]  ).to be_instance_of( Array )

@@ -1,6 +1,6 @@
-# require_relative '../nessus_api/request'
+# require_relative '../nessus_client/request'
 
-module NessusApi::Exports
+module NessusClient::Exports
  # export scans
   def export_request( scan_id, format )
     params = {:format => format }

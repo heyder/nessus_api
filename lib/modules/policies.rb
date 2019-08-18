@@ -1,6 +1,6 @@
-# require_relative '../nessus_api/request'
+# require_relative '../nessus_client/request'
 
-module NessusApi::Policies
+module NessusClient::Policies
   def policies
     self.request.get( "/policies" )
   end

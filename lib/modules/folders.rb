@@ -1,6 +1,6 @@
-# require_relative '../nessus_api/request'
+# require_relative '../nessus_client/request'
 
-module NessusApi::Folders
+module NessusClient::Folders
 # folders
   def list_folders
     self.request.get("/folders")

@@ -1,4 +1,4 @@
-NessusApi [![Build Status](https://travis-ci.org/colszowka/simplecov.svg)][Continuous Integration] [![Code Climate](https://codeclimate.com/github/colszowka/simplecov.svg)](https://codeclimate.com/github/colszowka/simplecov) [![Inline docs](http://inch-ci.org/github/colszowka/simplecov.svg)](http://inch-ci.org/github/colszowka/simplecov)
+NessusClient [![Build Status](https://travis-ci.org/colszowka/simplecov.svg)][Continuous Integration] [![Code Climate](https://codeclimate.com/github/colszowka/simplecov.svg)](https://codeclimate.com/github/colszowka/simplecov) [![Inline docs](http://inch-ci.org/github/colszowka/simplecov.svg)](http://inch-ci.org/github/colszowka/simplecov)
 =========
 **Ruby wrapper for Nessus API**
 
@@ -14,8 +14,8 @@ Ruby wrapper for Nessus API (all verions)
 
 *Code and Bug Reports*
 
-* [Issue Tracker](https://github.com/heyder/nessus_api/issues)
-* See [CONTRIBUTING](https://github.com/heyder/nessus_api/blob/master/CONTRIBUTING.md) for how to contribute along
+* [Issue Tracker](https://github.com/heyder/nessus_client/issues)
+* See [CONTRIBUTING](https://github.com/heyder/nessus_client/blob/master/CONTRIBUTING.md) for how to contribute along
 with some common problems to check out before creating an issue.
 
 
@@ -32,7 +32,7 @@ Everyone participating in this project's development, issue trackers and other c
 
 ## Contributing
 
-See the [contributing guide](https://github.com/heyder/nessus_api/blob/master/CONTRIBUTING.md).
+See the [contributing guide](https://github.com/heyder/nessus_client/blob/master/CONTRIBUTING.md).
 
 ## Copyright
 

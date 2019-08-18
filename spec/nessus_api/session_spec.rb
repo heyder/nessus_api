@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe NessusApi::Session do
+describe NessusClient::Session do
 
   before(:context) do
     RSpec::Mocks.with_temporary_scope do
@@ -8,15 +8,15 @@ describe NessusApi::Session do
         :username => 'username',
         :password => 'password'
       }
-      allow( NessusApi::Request ).to receive( :post ).with( '/session', @payload ).and_return( {'token' => 'token_test' }.to_json )
-      @nessus_session = NessusApi::Session.create( @payload[:username], @payload[:password] )  
+      allow( NessusClient::Request ).to receive( :post ).with( '/session', @payload ).and_return( {'token' => 'token_test' }.to_json )
+      @nessus_session = NessusClient::Session.create( @payload[:username], @payload[:password] )  
     end
   end
 
   context "initialize" do
 
     it "session has been created" do
-      expect( @nessus_session ).to be_instance_of NessusApi::Session
+      expect( @nessus_session ).to be_instance_of NessusClient::Session
     end
 
     it "has a token" do
@@ -28,8 +28,8 @@ describe NessusApi::Session do
     end
 
     it "has NOT session token" do
-      allow( NessusApi::Request ).to receive( :post ).with( '/session', @payload ).and_return( {}.to_json )
-      expect{ NessusApi::Session.create( @payload[:username], @payload[:password] ) }.to raise_error( NessusApi::Error )
+      allow( NessusClient::Request ).to receive( :post ).with( '/session', @payload ).and_return( {}.to_json )
+      expect{ NessusClient::Session.create( @payload[:username], @payload[:password] ) }.to raise_error( NessusClient::Error )
     end
 
   end
@@ -37,22 +37,22 @@ describe NessusApi::Session do
   context ".set_api_token" do
 
     it "should match valid api token" do
-      NessusApi::Request.new({ :uri => 'http://ness.us' })
-      allow( NessusApi::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
-      allow( NessusApi::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusApi::Session.new('lhebs') )
+      NessusClient::Request.new({ :uri => 'http://ness.us' })
+      allow( NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
+      allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new('lhebs') )
       
-      session = NessusApi::Session.create( @payload[:username], @payload[:password] ) 
+      session = NessusClient::Session.create( @payload[:username], @payload[:password] ) 
       session.set_api_token
       expect( session.api_token ).to eq( '0000000A-0AAA-A000-A111-A11111111111' )
     end
 
-    it "didn't match api token, shoud raise NessusApi::Error [Unable to get API Token. Some features wont work.]" do
-      NessusApi::Request.new({ :uri => 'http://ness.us' })
-      allow( NessusApi::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'this_sring_doesnt_match_the_token' )
-      allow( NessusApi::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusApi::Session.new('lhebs') )
+    it "didn't match api token, shoud raise NessusClient::Error [Unable to get API Token. Some features wont work.]" do
+      NessusClient::Request.new({ :uri => 'http://ness.us' })
+      allow( NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'this_sring_doesnt_match_the_token' )
+      allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new('lhebs') )
 
-      session = NessusApi::Session.create( @payload[:username], @payload[:password] ) 
-      expect{ session.set_api_token }.to raise_error( NessusApi::Error )
+      session = NessusClient::Session.create( @payload[:username], @payload[:password] ) 
+      expect{ session.set_api_token }.to raise_error( NessusClient::Error )
       expect( session.api_token ).to eq( nil )
     end
 
@@ -61,11 +61,11 @@ describe NessusApi::Session do
   context ".delete" do
 
     it "token should be nil after logout" do
-      # NessusApi::Request.new({ :uri => 'http://ness.us' })
-      allow( NessusApi::Request ).to receive( :delete ).with( '/session', nil).and_return('')
-      allow( NessusApi::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusApi::Session.new('lhebs') )
+      # NessusClient::Request.new({ :uri => 'http://ness.us' })
+      allow( NessusClient::Request ).to receive( :delete ).with( '/session', nil).and_return('')
+      allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new('lhebs') )
 
-      session = NessusApi::Session.create( @payload[:username], @payload[:password] )
+      session = NessusClient::Session.create( @payload[:username], @payload[:password] )
       session.destroy
       expect( session.token ).to eq( nil )
 
