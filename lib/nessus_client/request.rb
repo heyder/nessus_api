@@ -3,7 +3,7 @@ require 'json'
 
 class NessusClient
 
-  # Abstract base class for NessusClient. Provides some helper methods for
+  # Abstract request class for NessusClient. Provides some helper methods for
   class Request
 
     attr_reader   :url, :headers

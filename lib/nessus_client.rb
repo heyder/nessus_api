@@ -14,7 +14,6 @@ class NessusClient
   include NessusClient::Policies
 
   autoload :Request, "nessus_client/request"
-  # autoload :Session, "nessus_client/session"
 
   # @param [Hash] params the options to create a NessusClient with.
   # @option params [String] :uri ('https://localhost:8834/') Nessus endpoint to connect with

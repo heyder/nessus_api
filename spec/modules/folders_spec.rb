@@ -37,7 +37,7 @@ describe NessusClient::Folders do
     end
     context ".create_folder" do
         it "successful create folder" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( '/folders',  {:name => 'mock_folder_name' }.to_json ).and_return( { id: 55 }.to_json )
+            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( '/folders',  {:name => 'mock_folder_name' } ).and_return( { id: 55 }.to_json )
             allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

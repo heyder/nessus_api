@@ -1,5 +1,3 @@
-# require_relative '../nessus_client/request'
-
 module NessusClient::Exports
 
   # Reques a export of vulnerabilities scan.

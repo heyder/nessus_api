@@ -1,5 +1,3 @@
-# require_relative '../nessus_client/request'
-
 module NessusClient::Policies
   # List the scan polices from the endpoint.
   # @return [JSON]

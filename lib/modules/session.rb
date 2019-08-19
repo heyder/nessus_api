@@ -1,6 +1,4 @@
 require 'oj'
-# require_relative 'request'
-# require_relative 'exception'
 
 # Abstract base class for NessusClient Session. 
 # @since 0.1.0
