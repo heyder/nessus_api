@@ -6,33 +6,32 @@ class NessusClient
   # Abstract request class for NessusClient. Provides some helper methods for
   class Request
 
-    attr_reader :url, :headers
+    attr_reader :url
 
     # Default HTTP header to be used on the requests.
     DEFAULT_HEADERS = {
       "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
       "Content-Type" => "application/json"
-    }
+    }.freeze
 
     def initialize( params )
-      @headers = params[:headers] ||  DEFAULT_HEADERS 
+      # @headers = params[:headers] ||  DEFAULT_HEADERS 
       params = {:uri => nil, :ssl_verify_peer => false}.merge( params )
       @@ssl_verify_peer = params.fetch(:ssl_verify_peer)
       @url = @@url = NessusClient::Request.uri_parse( params.fetch(:uri) )
-      # @headers = params.fetch( :headers ).merge( DEFAULT_HEADERS )
     end
 
     # @raise [NotImplementedError] Use update from Hash insted.
-    def headers=(value)
-      raise NotImplementedError.new("Use update from Hash insted.")
-    end
+    # def headers=(value)
+    #   raise NotImplementedError.new("Use update from Hash insted.")
+    # end
 
     # Perform a HTTP GET to the endpoint.
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def get( path=nil, payload=nil, query=nil )
-      http_request( :get, path, payload, query )
+    def get( path=nil, payload=nil, query=nil, headers=nil )
+      http_request( :get, path, payload, query, headers )
     end
 
     # Perform a HTTP POST to the endpoint.
@@ -47,8 +46,8 @@ class NessusClient
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def delete( path=nil, payload=nil, query=nil )
-      http_request( :delete, path, payload, query )
+    def delete( path=nil, payload=nil, query=nil, headers=nil )
+      http_request( :delete, path, payload, query, headers )
     end
     # Parse a receiveid URI
     # @param [String] uri A valid URI.
@@ -66,7 +65,7 @@ class NessusClient
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def http_request( method=:get, path, payload, query )
+    def http_request( method=:get, path, payload, query, headers )
       connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
       
       body = payload ? payload.to_json : ''
@@ -75,7 +74,7 @@ class NessusClient
         path: path,
         body: body,
         query: query,
-        headers: @headers,
+        headers: headers,
         expects: [200, 201]
       }
       response = connection.request( options )

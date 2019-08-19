@@ -6,7 +6,7 @@ module NessusClient::Scans
   # @return [JSON]
   def list_scans( folder_id=nil )
     query = folder_id.nil? ? nil : { "folder_id" => folder_id }
-    self.request.get( "/scans", nil, query )
+    self.request.get( "/scans", nil, query, headers=self.headers )
   end
   alias_method :scans, :list_scans 
 
@@ -16,7 +16,7 @@ module NessusClient::Scans
   # @return [JSON]
   def scan_details( scan_id, history_id=nil )
     query = history_id.nil? ? nil : { "history_id" => history_id }
-    self.request.get( "/scans/#{scan_id}", nil, query )
+    self.request.get( "/scans/#{scan_id}", nil, query, headers=self.headers )
   end
 
   # Lauch a scan by its id
@@ -25,7 +25,7 @@ module NessusClient::Scans
   # @return [JSON]
   def launch( scan_id, targets=[])
     params = { :alt_targets => targets } unless targets.empty?
-    self.request.post( "/scans/#{scan_id}/launch", params )
+    self.request.post( "/scans/#{scan_id}/launch", params, headers=self.headers )
   end
 
   # Lauch a scan by its name

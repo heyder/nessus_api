@@ -1,4 +1,7 @@
 require 'simplecov'
+require 'oj'
+require 'pry'
+require 'excon'
 SimpleCov.start
 
 require 'codecov'

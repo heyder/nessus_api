@@ -1,4 +1,3 @@
-require 'excon'
 require_relative 'spec_helper'
 
 describe NessusClient do
@@ -20,7 +19,7 @@ describe NessusClient do
     
     it "successful authentication and api token" do
 
-      allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
+      allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
       # session
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'mock_auth_cookie' }.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
@@ -29,28 +28,12 @@ describe NessusClient do
 
       expect( nessus_client ).to be_instance_of NessusClient
       expect( nessus_client.has_session? ).to be(true)
-      expect( nessus_client.request.headers ).to have_key('X-Cookie')
-      expect( nessus_client.request.headers['X-Cookie'] ).to eq('token=mock_auth_cookie')
-      expect( nessus_client.request.headers ).to have_key('X-API-Token')
-      expect( nessus_client.request.headers['X-API-Token'] ).to eq('0000000A-0AAA-A000-A111-A11111111111')
+      expect( nessus_client.headers ).to have_key('X-Cookie')
+      expect( nessus_client.headers['X-Cookie'] ).to eq('token=mock_auth_cookie')
+      expect( nessus_client.headers ).to have_key('X-API-Token')
+      expect( nessus_client.headers['X-API-Token'] ).to eq('0000000A-0AAA-A000-A111-A11111111111')
 
     end
-
-    #   it "successful autentication but no api-token" do
-
-    #     allow( NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'mock_invalid_api_token' )
-    #     allow( NessusClient::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( NessusClient::Session.new( 'mock_auth_cookie' ) )
-    #     allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
-
-    #     nessus_client = NessusClient.new( @payload )
-
-    #     expect( nessus_client ).to be_instance_of NessusClient
-    #     expect( nessus_client.has_session? ).to be(true)
-    #     expect( nessus_client.request.headers ).to have_key('X-Cookie')
-    #     expect( nessus_client.request.headers['X-Cookie'] ).to eq('token=mock_auth_cookie')
-    #     expect( nessus_client.request.headers ).to_not have_key('X-API-Token')      
-        
-    #   end
 
   end
 

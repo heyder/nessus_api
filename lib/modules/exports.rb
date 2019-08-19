@@ -1,12 +1,12 @@
 module NessusClient::Exports
 
-  # Reques a export of vulnerabilities scan.
+  # Request a export of vulnerabilities scan.
   # @param [String] scan_id The export uuid string.
-  # @param [String] The file format to use (Nessus, HTML, PDF, CSV, or DB).
+  # @param [String] format The file format to use (Nessus, HTML, PDF, CSV, or DB).
   # @return [JSON]  
   def export_request( scan_id, format="nessus" )
     params = {:format => format }
-    self.request.post( "/scans/#{scan_id}/export", params )
+    self.request.post( "/scans/#{scan_id}/export", params, headers=self.headers )
   end
 
   # Check the status of a export request
@@ -16,7 +16,7 @@ module NessusClient::Exports
   #   export_status = nc.export_status( "73376c41-1508-46b7-8587-483d159cd956" )
   #   return true if export_status["status"] == "ready"
   def export_status( export_id )
-    self.request.get( "/tokens/#{export_id}/status" )
+    self.request.get( "/tokens/#{export_id}/status", headers=self.headers )
   end
 
   # Download a vulnerabities scan output.
@@ -29,7 +29,7 @@ module NessusClient::Exports
   #     file.write( export )
   #   end
   def export_download( scan_id, file_id )
-    self.request.get( "/scans/#{scan_id}/export/#{file_id}/download" )
+    self.request.get( "/scans/#{scan_id}/export/#{file_id}/download", headers=self.headers )
   end
 
 end

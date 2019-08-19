@@ -1,5 +1,5 @@
 require_relative '../spec_helper'
-require 'excon'
+
 
 describe NessusClient::Session do
 
@@ -20,7 +20,7 @@ describe NessusClient::Session do
   context "initialize" do
 
     it "session has been create, without mock set_session" do
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json }) )
+      # allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json }) )
       expect( @nessus_client.has_session? ).to be(true)
     end
 
@@ -29,11 +29,11 @@ describe NessusClient::Session do
     # end
 
     it "has a token" do
-      expect( @nessus_client.token.nil?).to eql false
+      expect( @nessus_client.session.nil?).to eql false
     end
 
     it "expect token string value" do
-      expect( @nessus_client.token ).to eq ('token_test')
+      expect( @nessus_client.headers ).to have_key('X-Cookie')
     end
 
     it "has NOT session token" do
@@ -47,24 +47,23 @@ describe NessusClient::Session do
   context ".set_api_token" do
 
     it "should match valid api token" do
-      allow_any_instance_of(  NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
+      allow_any_instance_of(  NessusClient::Request ).to receive( :get ).and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       nessus_client = NessusClient.new( @payload )
-           
-      nessus_client.set_api_token
-
-      expect( nessus_client.api_token ).to eq( '0000000A-0AAA-A000-A111-A11111111111' )
+      # it is private
+      expect{ nessus_client.set_api_token }.to raise_error( NoMethodError )
+      expect( nessus_client.api_token ).to eq( true )
     end
 
     it "didn't match api token, shoud raise NessusClient::Error [Unable to get API Token. Some features wont work.]" do
-      allow_any_instance_of(  NessusClient::Request ).to receive( :get ).with( '/nessus6.js').and_return( 'doesnt_match_api_token_patern' )
+      allow_any_instance_of(  NessusClient::Request ).to receive( :get ).and_return( 'doesnt_match_api_token_patern' )
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       
       nessus_client = NessusClient.new( @payload )
            
-      expect{ nessus_client.set_api_token }.to raise_error( NessusClient::Error )
+      # expect{ nessus_client.set_api_token }.to raise_error( NessusClient::Error )
       expect( nessus_client.api_token ).to eq( nil )
     end
 

@@ -17,7 +17,7 @@ describe NessusClient::Request do
     end
 
     it "when nil on into initialize, should raise TypeError exception" do
-      expect { NessusClient::Request.new( nil ) }.to raise_error( NoMethodError )
+      expect { NessusClient::Request.new( nil ) }.to raise_error( TypeError )
       expect { NessusClient::Request.new( {} ) }.to raise_error( URI::InvalidURIError )      
     end
 
@@ -48,28 +48,27 @@ describe NessusClient::Request do
       expect{ NessusClient::Request.headers }.to raise_error( NoMethodError )
     end
     
-    it "can read from instance method" do
+    it "there in no headers in the class anymore, can NOT read/write from instance method" do
       req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
       # read
-      expect( req.headers ).to be_instance_of( Hash )
+      expect{ req.headers }.to raise_error( NoMethodError )
     end
 
-    it "can write from instance method" do
-      req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
-      # "Use update from Hash insted."
-      expect{ req.headers=nil }.to raise_error( NotImplementedError )
-      req.headers.update({:key1 => 'value1'})
-      expect( req.headers ).to have_key( :key1 )
-    end
+    # it "can write from instance method" do
+    #   req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
+    #   # "Use update from Hash insted."
+    #   expect{ req.headers=nil }.to raise_error( NotImplementedError )
+    #   req.headers.update({:key1 => 'value1'})
+    #   expect( req.headers ).to have_key( :key1 )
+    # end
 
     it "still default" do
-      req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
       # hard coded default header
       default_header = {
         "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
         "Content-Type" => "application/json"
       }
-      expect( req.headers ).to eq( default_header )
+      expect( NessusClient::Request::DEFAULT_HEADERS ).to eq( default_header )
     end
 
   end
