@@ -1,8 +1,7 @@
 NessusClient
 =========
 
-Usable, fast, simple Ruby gem for Tenable Nessus Pro v6.x and v7.x
-
+Usable, fast, simple Ruby gem for Tenable Nessus Pro v7.x and v8.x
 NessusClient was designed to be simple, fast and performant through communication with Nessus over REST interface.
 
 [![Gem Version](https://badge.fury.io/rb/nessus_client.svg)](https://badge.fury.io/rb/nessus_client) [![codecov](https://codecov.io/gh/heyder/nessus_client/branch/master/graph/badge.svg)](https://codecov.io/gh/heyder/nessus_client) [![Inline docs](http://inch-ci.org/github/heyder/nessus_client.svg?branch=master)](http://inch-ci.org/github/heyder/nessus_client)
@@ -81,11 +80,11 @@ require 'oj'
 ## Code of Conduct
 
 Everyone participating in this project's development, issue trackers and other channels is expected to follow our
-[Code of Conduct](./CODE_OF_CONDUCT.md)
+[Code of Conduct](./CODE_OF_CONDUCT.md).
 
 ## Contributing
 
-See the [contributing guide](https://github.com/heyder/nessus_client/blob/master/CONTRIBUTING.md).
+See the [contributing guide](./CONTRIBUTING.md).
 
 ## Copyright
 
