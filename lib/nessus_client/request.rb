@@ -6,7 +6,7 @@ class NessusClient
   # Abstract request class for NessusClient. Provides some helper methods for
   class Request
 
-    attr_reader   :url, :headers
+    attr_reader :url, :headers
 
     # Default HTTP header to be used on the requests.
     DEFAULT_HEADERS = {
@@ -15,10 +15,11 @@ class NessusClient
     }
 
     def initialize( params )
-      params = {:uri => nil, :ssl_verify_peer => false, :headers => {} }.merge( params )
+      @headers = params[:headers] ||  DEFAULT_HEADERS 
+      params = {:uri => nil, :ssl_verify_peer => false}.merge( params )
       @@ssl_verify_peer = params.fetch(:ssl_verify_peer)
       @url = @@url = NessusClient::Request.uri_parse( params.fetch(:uri) )
-      @headers = params.fetch( :headers ).merge( DEFAULT_HEADERS )
+      # @headers = params.fetch( :headers ).merge( DEFAULT_HEADERS )
     end
 
     # @raise [NotImplementedError] Use update from Hash insted.
@@ -66,8 +67,7 @@ class NessusClient
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
     def http_request( method=:get, path, payload, query )
-      
-      connection = Excon.new( @@url )
+      connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
       
       body = payload ? payload.to_json : ''
       options = {
@@ -76,7 +76,6 @@ class NessusClient
         body: body,
         query: query,
         headers: @headers,
-        ssl_verify_peer: @@ssl_verify_peer,
         expects: [200, 201]
       }
       response = connection.request( options )

@@ -7,7 +7,8 @@ describe NessusClient do
     @payload = {
       uri: 'http://ness.us',
       username: 'username',
-      password: 'password'
+      password: 'password',
+      ssl_verify_peer: false
     }  
   end
   

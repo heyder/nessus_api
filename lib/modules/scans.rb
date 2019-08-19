@@ -19,14 +19,22 @@ module NessusClient::Scans
     self.request.get( "/scans/#{scan_id}", nil, query )
   end
 
+  # Lauch a scan by its id
+  # @param [Integer] scan_id The ID of a alredy created scan.
+  # @param [Array<String>] targets comma separeted new target to be scanned.
+  # @return [JSON]
+  def launch( scan_id, targets=[])
+    params = { :alt_targets => targets } unless targets.empty?
+    self.request.post( "/scans/#{scan_id}/launch", params )
+  end
+
   # Lauch a scan by its name
   # @param [String] scan_name The name of a alredy created scan.
-  # @param [Array<String>] targets Comma separeted new target to be scanned.
+  # @param [Array<String>] targets comma separeted new target to be scanned.
   # @return [JSON]
   def launch_by_name( scan_name, targets=[] )
     scan_id = get_scan_by_name( scan_name )
-    params = { :alt_targets => targets } unless targets.empty?
-    self.request.post( "/scans/#{scan_id}/launch", params )
+    launch( scan_id, targets )   
   end
 
   # Get a scan by its name

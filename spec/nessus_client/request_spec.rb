@@ -4,7 +4,7 @@ require_relative '../spec_helper'
 describe NessusClient::Request do
 
   before(:context) do
-    @nessus_request = NessusClient::Request.new( {:uri => 'http://ness.us'} )    
+    @nessus_request = NessusClient::Request.new( {:uri => 'http://ness.us', :ssl_verify_peer => true } )    
   end
 
   context "initialize" do
@@ -17,7 +17,8 @@ describe NessusClient::Request do
     end
 
     it "when nil on into initialize, should raise TypeError exception" do
-      expect { NessusClient::Request.new( nil ) }.to raise_error( TypeError )
+      expect { NessusClient::Request.new( nil ) }.to raise_error( NoMethodError )
+      expect { NessusClient::Request.new( {} ) }.to raise_error( URI::InvalidURIError )      
     end
 
     it "when uri is nil, should raise URI::InvalidURIError exception" do

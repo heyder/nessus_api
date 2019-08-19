@@ -28,30 +28,38 @@ Getting started
 ```ruby
 require 'nessus_client'
 
-nc = NessusClient.new(
-  {
-    :uri=>'https://localhost:8834', 
-    :username=>'user',
-    :password=> 'password'
-  }
-)
-scan_uuid = nc.launch_by_name('scan_name',['192.168.10.0/28'])
+nc = NessusClient.new( { :uri=>'https://localhost:8834', :username=>'username',:password=> 'password'} )
+status = Oj.load( nc.status )
 
-while true do
- scan_status = Oj.load( nc.scan_details( scan_uuid ) )["info"]["status"] 
-  if scan_status == "done"
-    export_id = nc.export_request( scan_uuid )
-    while true do
-      export_status = Oj.load( nc.export_status( export_id ) )["status"]
-      if export_status == "ready"
-        open("scan_report", "wb") do |file|
-          file.write(nc.export_download( scan_uuid ))
+if status['status'] == 'ready'
+  scan_id = nc.get_scan_by_name('weekly_scan')
+  scan_uuid = Oj.load( nc.launch_by_name( 'weekly_scan' ,['127.0.0.1']) )['scan_uuid']
+
+  while true do
+   puts `clear`
+   scan_status = Oj.load( nc.scan_details( scan_id ) )["info"]["status"] 
+   puts " #{scan_id} - #{scan_uuid} - #{scan_status} "
+   sleep 5
+   if ["completed","canceled"].include? scan_status
+      export_request = Oj.load( nc.export_request( scan_id, "nessus" ))
+      puts " export request: #{export_request}"
+      while true do
+        puts `clear`
+        export_status = Oj.load( nc.export_status( export_request['token']) )["status"]
+        puts " export status: #{export_status}"
+        sleep 5
+        if export_status == "ready"
+          puts " downloading..."
+          open("scan_report", "wb") do |file|
+            file.write(nc.export_download( scan_id, export_request['file'] ))
+          end
+          exit 0
         end
-        break  
       end
-    end
- end
+   end
+  end
 end
+
 ```
 
 ## Installation

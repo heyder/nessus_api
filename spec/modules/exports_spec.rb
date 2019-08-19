@@ -51,12 +51,12 @@ describe NessusClient::Exports do
     end
     context ".export_download" do
         it "successful export_download" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( "/tokens/export_id/download").and_return({:output => 'export_data_body'}.to_json)
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( "/scans/1/export/123456/download").and_return({:output => 'export_data_body'}.to_json)
             allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
-            export = Oj.load( nessus_client.export_download( 'export_id' ) )
+            export = Oj.load( nessus_client.export_download( 1, 123456 ) )
       
             expect( export ).to have_key( 'output' )  
         end
