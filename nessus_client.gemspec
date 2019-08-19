@@ -15,14 +15,13 @@ Gem::Specification.new do |spec|
     "documentation_uri" => "https://rubydoc.info/github/heyder/nessus_client/",
     "source_code_uri"   => "https://github.com/heyder/nessus_client"
   }
-  spec.extra_rdoc_files = ['README.md', 'CONTRIBUTING.md']
+  spec.extra_rdoc_files = ['README.md', 'CONTRIBUTING.md', 'CODE_OF_CONDUCT.md']
   spec.files          = Dir['lib/**/*.rb']
   spec.require_paths  = ["lib"]
   spec.required_ruby_version = '>= 2.5.1'
 
   spec.add_dependency( 'excon', '~> 0.62' )
   spec.add_dependency( 'oj', '~> 3.7' )
-  spec.add_dependency( 'json', '~> 2.1' )
 
   spec.add_development_dependency( 'rspec', '~> 3.2' )
   spec.add_development_dependency( 'bundler', '~> 1.12' )
