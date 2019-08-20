@@ -53,7 +53,7 @@ describe NessusClient::Session do
       nessus_client = NessusClient.new( @payload )
       # it is private
       expect{ nessus_client.set_api_token }.to raise_error( NoMethodError )
-      expect( nessus_client.api_token ).to eq( true )
+      expect( nessus_client.session ).to eq( true )
     end
 
     it "didn't match api token, shoud raise NessusClient::Error [Unable to get API Token. Some features wont work.]" do
@@ -64,7 +64,7 @@ describe NessusClient::Session do
       nessus_client = NessusClient.new( @payload )
            
       # expect{ nessus_client.set_api_token }.to raise_error( NessusClient::Error )
-      expect( nessus_client.api_token ).to eq( nil )
+      expect( nessus_client.headers ).to_not have_key('X-API-Token' )
     end
 
   end
@@ -78,7 +78,7 @@ describe NessusClient::Session do
       
       nessus_client = NessusClient.new( @payload )
       nessus_client.logout
-      expect( nessus_client.token ).to eq( nil )
+      expect( nessus_client.session ).to eq( false )
 
     end
 

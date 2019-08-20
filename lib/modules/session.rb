@@ -1,4 +1,4 @@
-
+require 'oj'
 # Abstract Session class for NessusClient. 
 # @since 0.1.0
 # @attr_reader [String] token Autentication session token.
@@ -7,7 +7,8 @@ module NessusClient::Session
 
   attr_reader :session #, :token, :api_token
 
-  @@api_token = @session = nil
+  @@api_token = nil
+  @session = false
 
   # Autenticate into Nessus endpoint.
   # @param [String] username
@@ -19,10 +20,11 @@ module NessusClient::Session
     
     payload = {
       username: username,
-      password: password,
+      password: password
     }
 
-    response = self.request.post( '/session', payload=payload, headers=self.headers )
+    response = self.request.post( '/session', payload=payload, nil, headers=self.headers )
+
     response = Oj.load(response) if response.length > 0
 
     raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless response['token']
@@ -45,7 +47,7 @@ module NessusClient::Session
    # Destroy the current session from Nessus endpoint
    def destroy
     self.request.delete( '/session', nil, self.headers )
-    @token = nil
+    @session = false
   end
   alias_method :logout , :destroy
 

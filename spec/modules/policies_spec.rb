@@ -6,11 +6,12 @@ describe NessusClient::Policies do
           uri: 'http://ness.us',
           username: 'username',
           password: 'password'
-        }  
+        }
+        @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"}
     end
     context ".policies" do
         it "successful get all policies" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/policies').and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/policies', @headers).and_return( 
                 {
                     policy_id:'integer',
                     policy_name: 'string'

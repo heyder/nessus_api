@@ -7,11 +7,12 @@ describe NessusClient::Scans do
           uri: 'http://ness.us',
           username: 'username',
           password: 'password'
-        }  
+        }
+        @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"} 
     end
     context ".list_scans" do
         it "successful list scans" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/scans', nil, nil ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/scans', nil, nil, @headers ).and_return( 
                 {
                     folders:[
                         {
@@ -61,7 +62,7 @@ describe NessusClient::Scans do
     end
    context ".scan_details" do
         it "successful get scan detail" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans/scan_id", nil, {"history_id"=>9}).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans/scan_id", nil, {"history_id"=>9}, @headers).and_return( 
                 {
                     info: {
                     owner:"user2@example.com",
@@ -82,7 +83,7 @@ describe NessusClient::Scans do
    end
    context ".launch_by_name" do 
         it "successful launch " do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans", nil, nil ).and_return(                  
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans", nil, nil, @headers ).and_return(                  
                 {
                     folders:[
                         {
@@ -138,7 +139,7 @@ describe NessusClient::Scans do
 
     context ".get_scan_by_name" do 
         it "successful launch " do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans", nil, nil ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with("/scans", nil, nil, @headers ).and_return( 
                 {
                     folders:[
                         0 => {

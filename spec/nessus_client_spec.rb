@@ -40,7 +40,7 @@ describe NessusClient do
   context "status" do
     it "is ready" do
       
-      allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/server/status').and_return( {:code => 200, :status => 'ready'}.to_json )
+      allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/server/status', be_kind_of(Hash)).and_return( {:code => 200, :status => 'ready'}.to_json )
       allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
 

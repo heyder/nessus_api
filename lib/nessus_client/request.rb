@@ -16,8 +16,8 @@ class NessusClient
 
     def initialize( params )
       # @headers = params[:headers] ||  DEFAULT_HEADERS 
-      params = {:uri => nil, :ssl_verify_peer => false}.merge( params )
-      @@ssl_verify_peer = params.fetch(:ssl_verify_peer)
+      params = {:uri => nil }.merge( params )
+      @@ssl_verify_peer = params[:ssl_verify_peer] ? true : false
       @url = @@url = NessusClient::Request.uri_parse( params.fetch(:uri) )
     end
 
@@ -38,8 +38,8 @@ class NessusClient
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def post( path=nil, payload=nil, query=nil )
-      http_request( :post, path, payload, query )
+    def post( path=nil, payload=nil, query=nil, headers=nil )
+      http_request( :post, path, payload, query, headers )
     end
 
     # Perform a HTTP DELETE to the endpoint.
