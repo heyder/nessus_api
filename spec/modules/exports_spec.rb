@@ -13,7 +13,9 @@ describe NessusClient::Exports do
     context ".export_request" do
         it "successful export request" do
             allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
-            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( "/scans/#{@scan_id}/export", {:format => 'nessus' }, @headers ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with(
+                 {path: "/scans/#{@scan_id}/export", payload: {:format => 'nessus' }, headers: @headers}
+                ).and_return( 
                 {
                     :export_uuid => "73376c41-1508-46b7-8587-483d159cd956"
                 }.to_json
@@ -29,7 +31,7 @@ describe NessusClient::Exports do
     end
     context ".export_status" do
         it "successful export status" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/tokens/export_id/status', @headers).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/tokens/export_id/status', headers: @headers}).and_return( 
                 {
                     :status => "PROCESSING",    
                     :chunks_available => [
@@ -52,7 +54,9 @@ describe NessusClient::Exports do
     end
     context ".export_download" do
         it "successful export_download" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( "/scans/1/export/123456/download", @headers).and_return({:output => 'export_data_body'}.to_json)
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( 
+                {path: "/scans/1/export/123456/download", headers: @headers}
+            ).and_return({:output => 'export_data_body'}.to_json)
             allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

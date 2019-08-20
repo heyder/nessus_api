@@ -3,9 +3,9 @@ require 'json'
 
 class NessusClient
 
-  # Abstract request class for NessusClient. Provides some helper methods for
+  # Abstract request class for NessusClient. Provides some helper methods for perform HTTP requests.
   class Request
-
+    # @return [String] the url of the where the request will be performed.
     attr_reader :url
 
     # Default HTTP header to be used on the requests.
@@ -14,43 +14,46 @@ class NessusClient
       "Content-Type" => "application/json"
     }.freeze
 
-    def initialize( params )
-      # @headers = params[:headers] ||  DEFAULT_HEADERS 
+    # @param [Hash] params the options to create a NessusClient::Request with.
+    # @option params [String] :uri ('https://localhost:8834/') Nessus server to connect with
+    # @option params [String] :ssl_verify_peer (true)  Whether should check valid SSL certificate
+    def initialize( params={} )
       params = {:uri => nil }.merge( params )
       @@ssl_verify_peer = params[:ssl_verify_peer] ? true : false
       @url = @@url = NessusClient::Request.uri_parse( params.fetch(:uri) )
     end
 
-    # @raise [NotImplementedError] Use update from Hash insted.
-    # def headers=(value)
-    #   raise NotImplementedError.new("Use update from Hash insted.")
-    # end
-
-    # Perform a HTTP GET to the endpoint.
-    # @param [String] path The URI path to perform the request.
-    # @param [String] payload The HTTP body to send.
-    # @param [String] query The URI query to send.
+    # Perform a HTTP GET request.
+    # @param [Hash] opts to use in the request.
+    # @option opts [String] path The URI path to perform the request.
+    # @option opts [String] payload The HTTP body to send.
+    # @option opts [String] query The URI query to send.
+    # @return [JSON] The body of the resposnse if there is any.
     def get( opts={} )
       http_request( :get, opts )
     end
 
-    # Perform a HTTP POST to the endpoint.
-    # @param [String] path The URI path to perform the request.
-    # @param [String] payload The HTTP body to send.
-    # @param [String] query The URI query to send.
+    # Perform a HTTP POST request.
+    # @param [Hash] opts to use in the request.
+    # @option opts [String] path The URI path to perform the request.
+    # @option opts [String] payload The HTTP body to send.
+    # @option opts [String] query The URI query to send.
+    # @return [JSON] The body of the resposnse if there is any.
     def post( opts={} )
       http_request( :post, opts )
     end
 
-    # Perform a HTTP DELETE to the endpoint.
-    # @param [String] path The URI path to perform the request.
-    # @param [String] payload The HTTP body to send.
-    # @param [String] query The URI query to send.
+    # Perform a HTTP DELETE request.
+    # @param [Hash] opts to use in the request.
+    # @option opts [String] path The URI path to perform the request.
+    # @option opts [String] payload The HTTP body to send.
+    # @option opts [String] query The URI query to send.
+    # @return [JSON] The body of the resposnse if there is any.
     def delete( opts={} )
       http_request( :delete, opts )
     end
-    # Parse a receiveid URI
-    # @param [String] uri A valid URI.
+    # Parse a receiveid string against the URI stantard.
+    # @param [String] uri A string to be validate URI.
     # @return [String] A string uri.
     def self.uri_parse( uri )
       url = URI.parse( uri )
@@ -61,10 +64,12 @@ class NessusClient
     private
 
     # @private HTTP request abstraction to be used.
-    # @param [Symbol] method A HTTP method to be used could be `:get`, `:post` or `:delete`.
-    # @param [String] path The URI path to perform the request.
-    # @param [String] payload The HTTP body to send.
-    # @param [String] query The URI query to send.
+    # @param [Hash] args  Parameters to use in the request.
+    # @option args [String] path (nil) The URI path to perform the request.
+    # @option args [String] payload (nil) The HTTP body to send.
+    # @option args [String] query (nil) The URI query to send.
+    # @option args [String] headers (nil) The headers to send.
+    # @return [JSON] The body of the resposnse if there is any.
     def http_request( method=:get, args )
       opts = {
         :path => nil,

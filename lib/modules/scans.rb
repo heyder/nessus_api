@@ -1,12 +1,12 @@
 
-module NessusClient::Scans
+module NessusClient::Scans  # Namespace for Scans endpoint.
 
   # List scans from the endpoint.
   # @param [String] folder_id (nil) The name of a alredy created scan.
   # @return [JSON]
   def list_scans( folder_id=nil )
     query = folder_id.nil? ? nil : { "folder_id" => folder_id }
-    self.request.get( {:path => "/scans", :query => query, :headers => self.headers} )
+    self.request.get( {path: "/scans", query: query, headers: self.headers} )
   end
   alias_method :scans, :list_scans 
 
@@ -23,7 +23,7 @@ module NessusClient::Scans
   # @param [Integer] scan_id The ID of a alredy created scan.
   # @param [Array<String>] targets comma separeted new target to be scanned.
   # @return [JSON]
-  def launch( scan_id, targets=[])
+  def launch( scan_id, targets=[] )
     payload = { :alt_targets => targets } unless targets.empty?
     self.request.post( {:path => "/scans/#{scan_id}/launch", :payload => payload, :headers => self.headers} )
   end

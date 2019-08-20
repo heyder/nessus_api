@@ -11,7 +11,7 @@ describe NessusClient::Policies do
     end
     context ".policies" do
         it "successful get all policies" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/policies', @headers).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/policies', headers: @headers}).and_return( 
                 {
                     policy_id:'integer',
                     policy_name: 'string'

@@ -12,7 +12,7 @@ describe NessusClient::Folders do
     context ".list_folders" do
         it "successful list folders" do
             
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( '/folders', @headers ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/folders', headers: @headers} ).and_return( 
                 {
                     "folders" => [
                         0 => {
@@ -38,7 +38,9 @@ describe NessusClient::Folders do
     end
     context ".create_folder" do
         it "successful create folder" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( '/folders',  {:name => 'mock_folder_name' }, @headers ).and_return( { id: 55 }.to_json )
+            allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( 
+                {path: '/folders', payload: {:name => 'mock_folder_name' }, headers: @headers} 
+            ).and_return( { id: 55 }.to_json )
             allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

@@ -12,8 +12,8 @@ describe NessusClient::Request do
       expect( NessusClient::Request.new( {:uri => 'http://ness.us'} ) ).to be_instance_of( NessusClient::Request )
     end
 
-    it "when no uri, should raise ArgumentError exception" do
-      expect { NessusClient::Request.new }.to raise_error( ArgumentError )
+    it "when no uri, should raise URI::InvalidURIError exception. Because there is a nil as default" do
+      expect { NessusClient::Request.new }.to raise_error( URI::InvalidURIError )
     end
 
     it "when nil on into initialize, should raise TypeError exception" do
@@ -54,14 +54,6 @@ describe NessusClient::Request do
       expect{ req.headers }.to raise_error( NoMethodError )
     end
 
-    # it "can write from instance method" do
-    #   req = NessusClient::Request.new( { :uri => 'http://ness.us' } ) 
-    #   # "Use update from Hash insted."
-    #   expect{ req.headers=nil }.to raise_error( NotImplementedError )
-    #   req.headers.update({:key1 => 'value1'})
-    #   expect( req.headers ).to have_key( :key1 )
-    # end
-
     it "still default" do
       # hard coded default header
       default_header = {
@@ -74,10 +66,10 @@ describe NessusClient::Request do
   end
 
   context ".get" do
-    # it "response has a body" do
-    #   allow( NessusClient::Request ).to receive( :get ).and_return( "RESPONSE_BODY" )
-    #   expect( NessusClient::Request.get ).to eq( "RESPONSE_BODY" )
-    # end
+    it "response has a body" do
+      allow( NessusClient::Request ).to receive( :get ).and_return( "RESPONSE_BODY" )
+      expect( NessusClient::Request.get ).to eq( "RESPONSE_BODY" )
+    end
     it "default request/response" do
       allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( "RESPONSE_BODY"  )
       expect( @nessus_request.get ).to eq( "RESPONSE_BODY" )
@@ -92,7 +84,7 @@ describe NessusClient::Request do
           }
         )
       )
-      expect( @nessus_request.get('path','payload','query') ).to eq( "RESPONSE_BODY" )
+      expect( @nessus_request.get({path: 'path', payload: 'payload', query: 'query'}) ).to eq( "RESPONSE_BODY" )
     end
     it "empty response" do
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=>''}) )
@@ -100,7 +92,7 @@ describe NessusClient::Request do
     end
     it "should raise Excon::Error exception" do
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_raise( Excon::Error )
-      expect{ @nessus_request.get('/') }.to raise_error( Excon::Error )
+      expect{ @nessus_request.get({path: '/'}) }.to raise_error( Excon::Error )
     end
     
   end
@@ -113,7 +105,7 @@ describe NessusClient::Request do
     end
     it "request with json data" do
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=>'RESPONSE_BODY'}) )
-      expect( @nessus_request.post( '/','{"key":"data"}', nil ) ).to eq( "RESPONSE_BODY" )
+      expect( @nessus_request.post( {path: '/', payload: '{"key":"data"}'} ) ).to eq( "RESPONSE_BODY" )
     end
   end
 
@@ -124,7 +116,7 @@ describe NessusClient::Request do
     end
     it "request with json data" do
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=>'RESPONSE_BODY'}) )
-      expect( @nessus_request.delete('/','{"key":"data"}', nil) ).to eq( "RESPONSE_BODY" )
+      expect( @nessus_request.delete({path: '/', payload: '{"key":"data"}'}) ).to eq( "RESPONSE_BODY" )
     end
   end
 
