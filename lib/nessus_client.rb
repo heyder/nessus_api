@@ -3,10 +3,10 @@ require_relative 'nessus_client/exception'
 
 Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
 
-# frozen_string_literal: true
+# Nessus endpoint abstraction.
 class NessusClient
 
-  # @return [NessusClient::Request]
+  # @see NessusClient::Request
   attr_reader :request
   # @return [Boolean] whether has a session.
   attr_reader :session

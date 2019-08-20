@@ -1,6 +1,6 @@
 require 'oj'
 
-module NessusClient::Session
+module NessusClient::Session # Namespace for Session endpoint.
 
   # @return [Boolean] whether has a session.
   attr_reader :session
