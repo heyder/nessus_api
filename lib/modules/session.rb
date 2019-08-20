@@ -1,13 +1,10 @@
 require 'oj'
-# Abstract Session class for NessusClient. 
-# @since 0.1.0
-# @attr_reader [String] token Autentication session token.
-# @attr_reader [String] api_token Autentication API token.
+
 module NessusClient::Session
 
+  # @return [Boolean] whether has a session.
   attr_reader :session
 
-  @@api_token = nil
   @session = false
 
   # Autenticate into Nessus endpoint.
@@ -35,8 +32,6 @@ module NessusClient::Session
       self.headers.update( 'X-API-Token' => set_api_token() ) 
     rescue NessusClient::Error => err
       puts err.message
-    else
-      @@api_token = true
     ensure
       return
     end

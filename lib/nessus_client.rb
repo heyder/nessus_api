@@ -6,7 +6,12 @@ Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
 # frozen_string_literal: true
 class NessusClient
 
-  attr_reader :request, :session, :headers
+  # @return [NessusClient::Request]
+  attr_reader :request
+  # @return [Boolean] whether has a session.
+  attr_reader :session
+  # @return [Hash] instance current HTTP headers.
+  attr_reader :headers
   
   include NessusClient::Session
   include NessusClient::Scans
