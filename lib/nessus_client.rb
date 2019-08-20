@@ -21,7 +21,7 @@ class NessusClient
   # @option params [String] :password Password (nil) to use in the connection
   # @option params [String] :ssl_verify_peer (false) should check whether valid SSL certificate
   def initialize( params = {} )
-    # @has_session = false
+    
     default_params = { 
       uri: 'https://localhost:8834/', 
       username: nil, 
@@ -34,21 +34,7 @@ class NessusClient
     @request = NessusClient::Request.new( req_params )
     @headers = NessusClient::Request::DEFAULT_HEADERS.dup
     self.set_session( params.fetch(:username), params.fetch(:password) )
-    
-    # if self.token
-    #   begin
-    #     @has_session = true
-    #     @request.headers.update( 'X-Cookie' => 'token=' + self.token )
-    #     self.set_api_token
-    #   rescue NessusClient::Error => err
-    #     puts err.message
-    #   else
-    #     request.headers.update( 'X-API-Token' => self.api_token )
-    #   ensure
-    #     return
-    #   end
 
-    # end
 
   end
 
@@ -61,7 +47,7 @@ class NessusClient
   # Gets the server status.
   # @return [Json] Returns the server status (loading, ready, corrupt-db, feed-expired, eval-expired, locked, register, register-locked, download-failed, feed-error).
   def status
-    self.request.get( "/server/status", headers=self.headers )
+    self.request.get( {:path => "/server/status", :headers => self.headers} )
   end
 
 end

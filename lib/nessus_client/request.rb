@@ -30,24 +30,24 @@ class NessusClient
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def get( path=nil, payload=nil, query=nil, headers=nil )
-      http_request( :get, path, payload, query, headers )
+    def get( opts={} )
+      http_request( :get, opts )
     end
 
     # Perform a HTTP POST to the endpoint.
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def post( path=nil, payload=nil, query=nil, headers=nil )
-      http_request( :post, path, payload, query, headers )
+    def post( opts={} )
+      http_request( :post, opts )
     end
 
     # Perform a HTTP DELETE to the endpoint.
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def delete( path=nil, payload=nil, query=nil, headers=nil )
-      http_request( :delete, path, payload, query, headers )
+    def delete( opts={} )
+      http_request( :delete, opts )
     end
     # Parse a receiveid URI
     # @param [String] uri A valid URI.
@@ -65,16 +65,23 @@ class NessusClient
     # @param [String] path The URI path to perform the request.
     # @param [String] payload The HTTP body to send.
     # @param [String] query The URI query to send.
-    def http_request( method=:get, path, payload, query, headers )
+    def http_request( method=:get, args )
+      opts = {
+        :path => nil,
+        :payload => nil,
+        :query => nil,
+        :headers => nil
+      }.merge( args )
+
       connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
       
-      body = payload ? payload.to_json : ''
+      body = opts[:payload] ? opts[:payload].to_json : ''
       options = {
         method: method,
-        path: path,
+        path: opts.fetch(:path),
         body: body,
-        query: query,
-        headers: headers,
+        query: opts.fetch(:query),
+        headers: opts.fetch(:headers),
         expects: [200, 201]
       }
       response = connection.request( options )
