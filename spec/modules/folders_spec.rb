@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe NessusClient::Folders do
+describe Endpoint::Folders do
     before(:context) do
         @payload = {
           :uri => 'http://ness.us',
@@ -26,7 +26,7 @@ describe NessusClient::Folders do
                     ]
                 }.to_json
             )
-            allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
@@ -41,7 +41,7 @@ describe NessusClient::Folders do
             allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( 
                 {path: '/folders', payload: {:name => 'mock_folder_name' }, headers: @headers} 
             ).and_return( { id: 55 }.to_json )
-            allow_any_instance_of( NessusClient::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )

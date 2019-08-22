@@ -1,5 +1,5 @@
 
-module NessusClient::Scans  # Namespace for Scans endpoint.
+module Endpoint::Scans  # Namespace for Scans endpoint.
 
   # List scans from the endpoint.
   # @param [String] folder_id (nil) The name of a alredy created scan.
