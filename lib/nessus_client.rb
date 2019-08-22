@@ -1,11 +1,11 @@
 require_relative 'nessus_client/version'
 require_relative 'nessus_client/exception'
+require_relative 'nessus_client/endpoint'
 
 Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
 
 # Nessus endpoint abstraction.
 class NessusClient
-
   # @see NessusClient::Request
   attr_reader :request
   # @return [Boolean] whether has a session.
@@ -13,11 +13,11 @@ class NessusClient
   # @return [Hash] instance current HTTP headers.
   attr_reader :headers
   
-  include NessusClient::Session
-  include NessusClient::Scans
-  include NessusClient::Exports
-  include NessusClient::Folders
-  include NessusClient::Policies
+  include Endpoint::Session
+  include Endpoint::Scans
+  include Endpoint::Exports
+  include Endpoint::Folders
+  include Endpoint::Policies
 
   autoload :Request, "nessus_client/request"
 

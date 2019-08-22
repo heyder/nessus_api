@@ -1,4 +1,4 @@
-module NessusClient::Folders # Namespace for Folders endpoint.
+module Endpoint::Folders # Namespace for Folders endpoint.
   # Get the list of folders from the endpoint.
   # @return [JSON]
   def list_folders

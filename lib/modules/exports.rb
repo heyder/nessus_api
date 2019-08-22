@@ -1,4 +1,5 @@
-module NessusClient::Exports  # Namespace for Exports endpoint.
+
+module Endpoint::Exports  # Namespace for Exports endpoint.
 
   # Request a export of vulnerabilities scan.
   # @param [String] scan_id The export uuid string.

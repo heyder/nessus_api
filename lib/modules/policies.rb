@@ -1,4 +1,4 @@
-module NessusClient::Policies # Namespace for Policies endpoint.
+module Endpoint::Policies # Namespace for Policies endpoint.
   # List the scan polices.
   # @return [JSON]
   def policies

@@ -4,8 +4,7 @@ class NessusClient
     # Raise a custom error namespace.
     # @param [String] msg (message) The exception message.
     # @example
-    # NessusClient::Error.new('This is a custom error.')
-    #
+    #   NessusClient::Error.new('This is a custom error.')
     def initialize(msg="message")
       super
     end
