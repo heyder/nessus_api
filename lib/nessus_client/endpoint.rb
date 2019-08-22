@@ -1,2 +1,1 @@
-class Endpoint < NessusClient
-end
+module Endpoint end # Namespace for endpoints

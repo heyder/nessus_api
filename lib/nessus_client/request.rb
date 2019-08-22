@@ -3,15 +3,15 @@ require 'json'
 
 class NessusClient
 
-  # Abstract request class for NessusClient. Provides some helper methods for perform HTTP requests.
+  # Abstract http request class for NessusClient. Provides some helper methods for perform HTTP requests.
   class Request
-    # @return [String] the url of the where the request will be performed.
+    # @return [String] The base url of the API.
     attr_reader :url
 
     # Default HTTP header to be used on the requests.
     DEFAULT_HEADERS = {
-      "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
-      "Content-Type" => "application/json"
+      "User-Agent"    => "NessusClient::Request (https://rubygems.org/gems/nessus_client)",
+      "Content-Type"  => "application/json"
     }.freeze
 
     # @param [Hash] params the options to create a NessusClient::Request with.
@@ -64,6 +64,7 @@ class NessusClient
     private
 
     # @private HTTP request abstraction to be used.
+    # @param [Symbol] method  The HTTP method to be used on the request.
     # @param [Hash] args  Parameters to use in the request.
     # @option args [String] path (nil) The URI path to perform the request.
     # @option args [String] payload (nil) The HTTP body to send.

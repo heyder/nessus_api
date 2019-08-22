@@ -8,11 +8,11 @@ describe Endpoint::Scans do
           username: 'username',
           password: 'password'
         }
-        @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"} 
+        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"} 
     end
     context ".list_scans" do
         it "successful list scans" do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/scans', query: nil, headers: @headers} ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/scans', query: nil, headers: be_kind_of(Hash) } ).and_return( 
                 {
                     folders:[
                         {
@@ -63,7 +63,7 @@ describe Endpoint::Scans do
    context ".scan_details" do
         it "successful get scan detail" do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with(
-                {path: "/scans/scan_id", query: {"history_id"=>9}, headers: @headers}
+                {path: "/scans/scan_id", query: {"history_id"=>9}, headers: be_kind_of(Hash) }
             ).and_return( 
                 {
                     info: {
@@ -85,7 +85,7 @@ describe Endpoint::Scans do
    end
    context ".launch_by_name" do 
         it "successful launch " do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: @headers} ).and_return(                  
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: be_kind_of(Hash) } ).and_return(                  
                 {
                     folders:[
                         {
@@ -141,7 +141,7 @@ describe Endpoint::Scans do
 
     context ".get_scan_by_name" do 
         it "successful launch " do
-            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: @headers} ).and_return( 
+            allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: be_kind_of(Hash) } ).and_return( 
                 {
                     folders:[
                         0 => {

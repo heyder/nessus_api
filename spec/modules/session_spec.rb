@@ -9,8 +9,6 @@ describe Endpoint::Session do
         :username => 'username',
         :password => 'password'
       }
-      # allow( NessusClient::Request ).to receive( :post ).with( '/session', @payload ).and_return( {'token' => 'token_test' }.to_json )
-      # @nessus_session = Endpoint::Session.create( @payload[:username], @payload[:password] )  
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json }) )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       @nessus_client = NessusClient.new( @payload )
@@ -72,7 +70,6 @@ describe Endpoint::Session do
   context ".delete" do
 
     it "token should be nil after logout" do
-      # NessusClient::Request.new({ :uri => 'http://ness.us' })
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       

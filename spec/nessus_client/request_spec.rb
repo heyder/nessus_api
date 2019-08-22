@@ -57,7 +57,7 @@ describe NessusClient::Request do
     it "still default" do
       # hard coded default header
       default_header = {
-        "User-Agent" => "Mozilla/5.0 (Linux x86_64)",
+        "User-Agent" => "NessusClient::Request (https://rubygems.org/gems/nessus_client)",
         "Content-Type" => "application/json"
       }
       expect( NessusClient::Request::DEFAULT_HEADERS ).to eq( default_header )
