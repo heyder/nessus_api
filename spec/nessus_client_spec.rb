@@ -8,7 +8,8 @@ describe NessusClient do
       username: 'username',
       password: 'password',
       ssl_verify_peer: false
-    }  
+    }
+    @mock_auth_token = {'token' => '7410819d44c34c8779ef50ddb10b45acbf7022b495f2463d' }  
   end
   
   it 'has a version number' do
@@ -21,7 +22,7 @@ describe NessusClient do
 
       allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
       # session
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'mock_auth_cookie' }.to_json } ) ) 
+      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
 
       nessus_client = NessusClient.new( @payload )
@@ -29,7 +30,7 @@ describe NessusClient do
       expect( nessus_client ).to be_instance_of NessusClient
       expect( nessus_client.has_session? ).to be(true)
       expect( nessus_client.headers ).to have_key('X-Cookie')
-      expect( nessus_client.headers['X-Cookie'] ).to eq('token=mock_auth_cookie')
+      expect( nessus_client.headers['X-Cookie'] ).to eq("token=#{@mock_auth_token['token']}")
       expect( nessus_client.headers ).to have_key('X-API-Token')
       expect( nessus_client.headers['X-API-Token'] ).to eq('0000000A-0AAA-A000-A111-A11111111111')
 

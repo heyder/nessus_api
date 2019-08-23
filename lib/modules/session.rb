@@ -1,4 +1,3 @@
-require 'oj'
 
 module Endpoint::Session # Namespace for Session endpoint.
 
@@ -20,14 +19,13 @@ module Endpoint::Session # Namespace for Session endpoint.
       password: password
     }
 
-    response = self.request.post( {path: '/session', payload: payload, headers: self.headers} )
+    resp = self.request.post( {path: '/session', payload: payload, headers: self.headers} )
+    resp.match(%r{(?<token>\w{48}+)})
 
-    response = Oj.load(response) if response.length > 0
-
-    raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless response['token']
-
+    raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless $1
+    
     begin
-      self.headers.update( 'X-Cookie' => 'token=' + response['token'] )
+      self.headers.update( 'X-Cookie' => 'token=' + $1 )
       @session = true
       self.headers.update( 'X-API-Token' => set_api_token() ) 
     rescue NessusClient::Error => err
@@ -50,6 +48,7 @@ module Endpoint::Session # Namespace for Session endpoint.
 
   # Set the API Token from legacy Nessus version
   # @raise [NessusClient::Error] Unable to get API Token.
+  # @todo To get it direct from the session authentication on v6.x
   def set_api_token
     response = self.request.get( {path: "/nessus6.js", headers: self.headers} )
     response.match( %r{return"(\w{8}-(?:\w{4}-){3}\w{12})"\}} )
