@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 
-describe Endpoint::Session do
+describe Resource::Session do
 
   before(:context) do
     RSpec::Mocks.with_temporary_scope do
@@ -11,7 +11,7 @@ describe Endpoint::Session do
       }
       @mock_auth_token = {'token' => '7410819d44c34c8779ef50ddb10b45acbf7022b495f2463d' }.to_json
       # allow( NessusClient::Request ).to receive( :post ).with( '/session', @payload ).and_return( {'token' => 'token_test' }.to_json )
-      # @nessus_session = Endpoint::Session.create( @payload[:username], @payload[:password] )  
+      # @nessus_session = Resource::Session.create( @payload[:username], @payload[:password] )  
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token }) )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       @nessus_client = NessusClient.new( @payload )
@@ -26,7 +26,7 @@ describe Endpoint::Session do
     end
 
     # it "session has been created" do
-    #   expect( @nessus_session ).to be_instance_of Endpoint::Session
+    #   expect( @nessus_session ).to be_instance_of Resource::Session
     # end
 
     it "has a token" do

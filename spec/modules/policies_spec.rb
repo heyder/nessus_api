@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe Endpoint::Policies do
+describe Resource::Policies do
     before(:context) do
         @payload = {
           uri: 'http://ness.us',
@@ -17,8 +17,8 @@ describe Endpoint::Policies do
                     policy_name: 'string'
                 }.to_json
             )
-            # allow( Endpoint::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( Endpoint::Session.new( 'mock_auth_cookie' ) )
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            # allow( Resource::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( Resource::Session.new( 'mock_auth_cookie' ) )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )

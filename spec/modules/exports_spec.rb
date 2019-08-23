@@ -1,6 +1,6 @@
 require_relative '../spec_helper'
 
-describe Endpoint::Exports do
+describe Resource::Exports do
     before(:context) do
         @payload = {
           uri: 'http://ness.us',
@@ -12,7 +12,7 @@ describe Endpoint::Exports do
     end
     context ".export_request" do
         it "successful export request" do
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient::Request ).to receive( :post ).with(
                  {path: "/scans/#{@scan_id}/export", payload: {:format => 'nessus' }, headers: be_kind_of(Hash)}
                 ).and_return( 
@@ -42,7 +42,7 @@ describe Endpoint::Exports do
                     :chunks_cancelled => []
                 }.to_json
             )
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
@@ -57,7 +57,7 @@ describe Endpoint::Exports do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( 
                 {path: "/scans/1/export/123456/download", headers: be_kind_of(Hash)}
             ).and_return({:output => 'export_data_body'}.to_json)
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )

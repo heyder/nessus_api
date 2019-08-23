@@ -1,7 +1,7 @@
 
-module Endpoint::Exports  # Namespace for Exports endpoint.
+module Resource::Exports  # Namespace for Exports resource.
 
-  # Export the given scan. To see the status of the requested export, submit a scan export status request. On receiving a "ready" status from the was-export-status request, download the export file using the scan export download method.
+  # Export the given scan. Once requested, the file can be downloaded using the Resource::Tokens.token_download method upon receiving a "ready" status from the Resource::Tokens#token_status method. You can also use the older Resource::Exports#export_status and Resource::Exports#export_download methods.
   # @param [String] scan_id The export uuid string.
   # @param [String] format The file format to use (Nessus, HTML, PDF, CSV, or DB).
   # @return [JSON]  
@@ -10,7 +10,7 @@ module Endpoint::Exports  # Namespace for Exports endpoint.
     self.request.post( { :path => "/scans/#{scan_id}/export", :payload => payload, :headers => self.headers} )
   end
 
-  # Check the file status of an exported scan. When an export has been requested, it is necessary to poll this endpoint until a "ready" status is returned, at which point the file is complete and can be downloaded using the export download endpoint.
+  # Check the file status of an exported scan. When an export has been requested, it is necessary to poll this resource until a "ready" status is returned, at which point the file is complete and can be downloaded using the export download resource.
   # @param [String] scan_id The identifier for the scan. This identifier can be the either the 'schedule_uuid' or the numeric 'id' attribute for the scan. We recommend that you use 'schedule_uuid'.
   # @param [String] file_id The ID of the file to poll (Included in response from #export_request).
   # @return [JSON] 

@@ -1,12 +1,12 @@
 
-module Endpoint::Session # Namespace for Session endpoint.
+module Resource::Session # Namespace for Session resource.
 
   # @return [Boolean] whether has a session.
   attr_reader :session
 
   @session = false
 
-  # Autenticate into Nessus endpoint.
+  # Autenticate into Nessus resource.
   # @param [String] username
   # @param [String] password
   # @return [nil]
@@ -23,7 +23,7 @@ module Endpoint::Session # Namespace for Session endpoint.
     resp.match(%r{(?<token>\w{48}+)})
 
     raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless $1
-    
+
     begin
       self.headers.update( 'X-Cookie' => 'token=' + $1 )
       @session = true
@@ -37,7 +37,7 @@ module Endpoint::Session # Namespace for Session endpoint.
   end
   alias_method :session_create, :set_session
 
-   # Destroy the current session from Nessus endpoint
+   # Destroy the current session from Nessus resource
    def destroy
     self.request.delete( {path: '/session', headers: self.headers} )
     @session = false

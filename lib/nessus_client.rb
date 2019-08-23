@@ -1,10 +1,10 @@
 require_relative 'nessus_client/version'
 require_relative 'nessus_client/exception'
-require_relative 'nessus_client/endpoint'
+require_relative 'nessus_client/resource'
 
 Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
 
-# Nessus endpoint abstraction.
+# Nessus resource abstraction.
 class NessusClient
 
   # @return [NessusClient::Request] Instance HTTP request object.
@@ -15,16 +15,16 @@ class NessusClient
   # @return [Hash] Instance current HTTP headers.
   attr_reader :headers
   
-  include Endpoint::Session
-  include Endpoint::Scans
-  include Endpoint::Exports
-  include Endpoint::Folders
-  include Endpoint::Policies
+  include Resource::Session
+  include Resource::Scans
+  include Resource::Exports
+  include Resource::Folders
+  include Resource::Policies
 
   autoload :Request, "nessus_client/request"
 
   # @param [Hash] params the options to create a NessusClient with.
-  # @option params [String] :uri ('https://localhost:8834/') Nessus endpoint to connect with
+  # @option params [String] :uri ('https://localhost:8834/') Nessus resource to connect with
   # @option params [String] :username (nil) Username to use in the connection
   # @option params [String] :password (nil) Password  to use in the connection
   # @option params [String] :ssl_verify_peer (true)  Whether should check valid SSL certificate

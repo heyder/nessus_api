@@ -1,4 +1,4 @@
-module Endpoint::Policies # Namespace for Policies endpoint.
+module Resource::Policies # Namespace for Policies resource.
   # List the scan polices.
   # @return [JSON]
   def policies

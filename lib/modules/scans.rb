@@ -1,7 +1,7 @@
 
-module Endpoint::Scans  # Namespace for Scans endpoint.
+module Resource::Scans  # Namespace for Scans resource.
 
-  # List scans from the endpoint.
+  # List scans from the resource.
   # @param [String] folder_id (nil) The name of a alredy created scan.
   # @return [JSON]
   def list_scans( folder_id=nil )

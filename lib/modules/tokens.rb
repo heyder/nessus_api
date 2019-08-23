@@ -1,4 +1,4 @@
-module Endpoint::Tokens # Namespace for tokens endpoint.
+module Resource::Tokens # Namespace for tokens resource.
 
   # Check the status of a export request
   # @param [String] export_uuid The export uuid string.
