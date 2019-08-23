@@ -15,11 +15,13 @@ class NessusClient
   # @return [Hash] Instance current HTTP headers.
   attr_reader :headers
   
-  include Resource::Session
-  include Resource::Scans
   include Resource::Exports
   include Resource::Folders
   include Resource::Policies
+  include Resource::Scans
+  include Resource::Server
+  include Resource::Session
+  include Resource::Tokens
 
   autoload :Request, "nessus_client/request"
 
@@ -49,12 +51,6 @@ class NessusClient
   # @return [Boolean] whether NessusClient has successfully authenticated.
   def has_session?
     self.session
-  end
-
-  # Gets the server status.
-  # @return [JSON] Returns the server status (loading, ready, corrupt-db, feed-expired, eval-expired, locked, register, register-locked, download-failed, feed-error).
-  def status
-    self.request.get( {:path => "/server/status", :headers => self.headers} )
   end
 
 end
