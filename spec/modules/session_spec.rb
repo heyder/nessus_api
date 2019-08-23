@@ -9,7 +9,10 @@ describe Endpoint::Session do
         :username => 'username',
         :password => 'password'
       }
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json }) )
+      @mock_auth_token = {'token' => '7410819d44c34c8779ef50ddb10b45acbf7022b495f2463d' }.to_json
+      # allow( NessusClient::Request ).to receive( :post ).with( '/session', @payload ).and_return( {'token' => 'token_test' }.to_json )
+      # @nessus_session = Endpoint::Session.create( @payload[:username], @payload[:password] )  
+      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token }) )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       @nessus_client = NessusClient.new( @payload )
     end
@@ -18,7 +21,7 @@ describe Endpoint::Session do
   context "initialize" do
 
     it "session has been create, without mock set_session" do
-      # allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json }) )
+      # allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token }) )
       expect( @nessus_client.has_session? ).to be(true)
     end
 
@@ -46,7 +49,7 @@ describe Endpoint::Session do
 
     it "should match valid api token" do
       allow_any_instance_of(  NessusClient::Request ).to receive( :get ).and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
+      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new( {:body=> @mock_auth_token} ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       nessus_client = NessusClient.new( @payload )
       # it is private
@@ -56,7 +59,7 @@ describe Endpoint::Session do
 
     it "didn't match api token, shoud raise NessusClient::Error [Unable to get API Token. Some features wont work.]" do
       allow_any_instance_of(  NessusClient::Request ).to receive( :get ).and_return( 'doesnt_match_api_token_patern' )
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
+      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       
       nessus_client = NessusClient.new( @payload )
@@ -70,7 +73,8 @@ describe Endpoint::Session do
   context ".delete" do
 
     it "token should be nil after logout" do
-      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> {'token' => 'token_test' }.to_json } ) ) 
+      # NessusClient::Request.new({ :uri => 'http://ness.us' })
+      allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
       
       nessus_client = NessusClient.new( @payload )
