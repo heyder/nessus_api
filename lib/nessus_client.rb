@@ -6,11 +6,13 @@ Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
 
 # Nessus endpoint abstraction.
 class NessusClient
+
+  # @return [NessusClient::Request] Instance HTTP request object.
   # @see NessusClient::Request
   attr_reader :request
   # @return [Boolean] whether has a session.
   attr_reader :session
-  # @return [Hash] instance current HTTP headers.
+  # @return [Hash] Instance current HTTP headers.
   attr_reader :headers
   
   include Endpoint::Session
