@@ -9,7 +9,10 @@ describe NessusClient do
       password: 'password',
       ssl_verify_peer: false
     }
-    @mock_auth_token = {'token' => '7410819d44c34c8779ef50ddb10b45acbf7022b495f2463d' }  
+    token = %r{[a-z0-9]{48}}.random_example
+    @mock_auth_token = {'token' => token }
+    @api_token = %r{([A-Z0-9]{8}-(?:[A-Z0-9]{4}-){3}[A-Z0-9]{12})}.random_example
+    @mock_api_token = "return\"#{@api_token}\"\}"
   end
   
   it 'has a version number' do
@@ -20,7 +23,7 @@ describe NessusClient do
     
     it "successful authentication and api token" do
 
-      allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( 'return"0000000A-0AAA-A000-A111-A11111111111"}' )
+      allow_any_instance_of( NessusClient::Request ).to receive( :get ).and_return( @mock_api_token )
       # session
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token.to_json } ) ) 
       allow_any_instance_of( NessusClient ).to receive( :new ).and_return(  NessusClient.new( @payload ) )
@@ -32,7 +35,7 @@ describe NessusClient do
       expect( nessus_client.headers ).to have_key('X-Cookie')
       expect( nessus_client.headers['X-Cookie'] ).to eq("token=#{@mock_auth_token['token']}")
       expect( nessus_client.headers ).to have_key('X-API-Token')
-      expect( nessus_client.headers['X-API-Token'] ).to eq('0000000A-0AAA-A000-A111-A11111111111')
+      expect( nessus_client.headers['X-API-Token'] ).to eq(@api_token)
 
     end
 

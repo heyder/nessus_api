@@ -7,7 +7,6 @@ describe Endpoint::Folders do
           :username => 'username',
           :password => 'password'
         }
-        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"}  
     end
     context ".list_folders" do
         it "successful list folders" do

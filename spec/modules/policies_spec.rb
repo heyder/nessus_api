@@ -7,7 +7,6 @@ describe Endpoint::Policies do
           username: 'username',
           password: 'password'
         }
-        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"}
     end
     context ".policies" do
         it "successful get all policies" do
@@ -17,7 +16,6 @@ describe Endpoint::Policies do
                     policy_name: 'string'
                 }.to_json
             )
-            # allow( Endpoint::Session ).to receive( :create ).with( 'username' , 'password' ).and_return( Endpoint::Session.new( 'mock_auth_cookie' ) )
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

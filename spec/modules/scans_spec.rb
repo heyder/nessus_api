@@ -8,7 +8,6 @@ describe Endpoint::Scans do
           username: 'username',
           password: 'password'
         }
-        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"} 
     end
     context ".list_scans" do
         it "successful list scans" do

@@ -2,6 +2,7 @@ require 'simplecov'
 require 'oj'
 require 'pry'
 require 'excon'
+require 'regexp-examples'
 SimpleCov.start
 
 # require 'codecov'
