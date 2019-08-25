@@ -8,7 +8,6 @@ describe Endpoint::Exports do
           password: 'password'
         }  
         @scan_id = '2776e999-1f5b-45b9-2e15-65a7be35b2e3ab8f7ecb158c480e'
-        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"}
     end
     context ".export_request" do
         it "successful export request" do
@@ -16,9 +15,11 @@ describe Endpoint::Exports do
             allow_any_instance_of( NessusClient::Request ).to receive( :post ).with(
                  {path: "/scans/#{@scan_id}/export", payload: {:format => 'nessus' }, headers: be_kind_of(Hash)}
                 ).and_return( 
-                {
-                    :export_uuid => "73376c41-1508-46b7-8587-483d159cd956"
-                }.to_json
+                Oj.dump(
+                    {
+                        :export_uuid => "73376c41-1508-46b7-8587-483d159cd956"
+                    }, mode: :compat
+                )
             )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
 
@@ -32,7 +33,7 @@ describe Endpoint::Exports do
     context ".export_status" do
         it "successful export status" do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/scans/scan_id/export/file_id/status', headers: be_kind_of(Hash)}).and_return( 
-                {
+                Oj.dump({
                     :status => "PROCESSING",    
                     :chunks_available => [
                         1,
@@ -40,7 +41,7 @@ describe Endpoint::Exports do
                     ],
                     :chunks_failed => [],
                     :chunks_cancelled => []
-                }.to_json
+                }, mode: :compat)
             )
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
@@ -56,7 +57,7 @@ describe Endpoint::Exports do
         it "successful export_download" do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( 
                 {path: "/scans/1/export/123456/download", headers: be_kind_of(Hash)}
-            ).and_return({:output => 'export_data_body'}.to_json)
+            ).and_return(Oj.dump({:output => 'export_data_body'}, mode: :compat))
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

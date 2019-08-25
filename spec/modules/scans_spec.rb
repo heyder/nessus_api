@@ -12,7 +12,7 @@ describe Endpoint::Scans do
     context ".list_scans" do
         it "successful list scans" do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/scans', query: nil, headers: be_kind_of(Hash) } ).and_return( 
-                {
+                Oj.dump({
                     folders:[
                         {
                             unread_count:0,
@@ -47,7 +47,7 @@ describe Endpoint::Scans do
                         }
                     ],
                     "timestamp":1544146142
-                }.to_json
+                }, mode: :compat)
             )
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
@@ -64,14 +64,14 @@ describe Endpoint::Scans do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with(
                 {path: "/scans/scan_id", query: {"history_id"=>9}, headers: be_kind_of(Hash) }
             ).and_return( 
-                {
+                Oj.dump({
                     info: {
                     owner:"user2@example.com",
                     name:"KitchenSinkScan",
                     no_target:false,
                     folder_id:9
                     }
-                }.to_json
+                }, mode: :compat)
             )
                 
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
@@ -85,7 +85,7 @@ describe Endpoint::Scans do
    context ".launch_by_name" do 
         it "successful launch " do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: be_kind_of(Hash) } ).and_return(                  
-                {
+                Oj.dump({
                     folders:[
                         {
                             unread_count:0,
@@ -120,16 +120,16 @@ describe Endpoint::Scans do
                         }
                     ],
                     "timestamp":1544146142
-                }.to_json
+                }, mode: :compat)
             )
             
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
             allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new(
                 {
-                    :body=>  {
+                    :body=> Oj.dump( {
                         scan_uuid:"e7f6c3f2-1718-4451-b459-1e8aa2ec6cdf"
-                    }.to_json
+                    }, mode: :compat)
                 })
             )
             nessus_client = NessusClient.new( @payload )
@@ -141,7 +141,7 @@ describe Endpoint::Scans do
     context ".get_scan_by_name" do 
         it "successful launch " do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with({path: "/scans", query: nil, headers: be_kind_of(Hash) } ).and_return( 
-                {
+                Oj.dump({
                     folders:[
                         0 => {
                             unread_count:0,
@@ -176,7 +176,7 @@ describe Endpoint::Scans do
                         }
                     ],
                     "timestamp":1544146142
-                }.to_json
+                }, mode: :compat)
             )
             
                 

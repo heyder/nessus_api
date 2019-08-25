@@ -11,10 +11,10 @@ describe Endpoint::Policies do
     context ".policies" do
         it "successful get all policies" do
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/policies', headers: be_kind_of(Hash)}).and_return( 
-                {
+                Oj.dump({
                     policy_id:'integer',
                     policy_name: 'string'
-                }.to_json
+                }, mode: :compat)
             )
             allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
