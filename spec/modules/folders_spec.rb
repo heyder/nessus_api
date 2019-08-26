@@ -7,13 +7,12 @@ describe Resource::Folders do
           :username => 'username',
           :password => 'password'
         }
-        # @headers = {"Content-Type"=>"application/json", "User-Agent"=>"Mozilla/5.0 (Linux x86_64)"}  
     end
     context ".list_folders" do
         it "successful list folders" do
             
             allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/folders', headers: be_kind_of(Hash)} ).and_return( 
-                {
+                Oj.dump({
                     "folders" => [
                         0 => {
                             "unread_count" => 0,
@@ -24,7 +23,7 @@ describe Resource::Folders do
                             "id" => 18
                         }
                     ]
-                }.to_json
+                }, mode: :compat)
             )
             allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
@@ -40,7 +39,7 @@ describe Resource::Folders do
         it "successful create folder" do
             allow_any_instance_of( NessusClient::Request ).to receive( :post ).with( 
                 {path: '/folders', payload: {:name => 'mock_folder_name' }, headers: be_kind_of(Hash)} 
-            ).and_return( { id: 55 }.to_json )
+            ).and_return( Oj.dump({ id: 55 }, mode: :compat) )
             allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       

@@ -1,8 +1,9 @@
-require 'simplecov'
+# require 'simplecov'
 require 'oj'
 require 'pry'
 require 'excon'
-SimpleCov.start
+require 'regexp-examples'
+# SimpleCov.start
 
 # require 'codecov'
 # SimpleCov.formatter = SimpleCov::Formatter::Codecov

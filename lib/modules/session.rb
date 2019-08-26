@@ -20,7 +20,7 @@ module Resource::Session # Namespace for Session resource.
     }
 
     resp = self.request.post( {path: '/session', payload: payload, headers: self.headers} )
-    resp.match(%r{(?<token>\w{48}+)})
+    resp.match(%r{(?<token>[a-z0-9]{48})})
 
     raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless $1
 

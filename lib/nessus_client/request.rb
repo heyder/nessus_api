@@ -1,5 +1,5 @@
 require 'excon'
-require 'json'
+require 'oj'
 
 class NessusClient
 
@@ -81,7 +81,7 @@ class NessusClient
 
       connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
       
-      body = opts[:payload] ? opts[:payload].to_json : ''
+      body = opts[:payload] ? Oj.dump( opts[:payload], mode: :compat ) : ''
       options = {
         method: method,
         path: opts.fetch(:path),
