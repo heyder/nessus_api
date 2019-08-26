@@ -30,17 +30,18 @@ Getting started
 
 ```ruby
 require 'nessus_client'
+require 'oj'
 
 nc = NessusClient.new( { :uri=>'https://localhost:8834', :username=>'username',:password=> 'password'} )
-status = Oj.load( nc.status )
+status = Oj.load( nc.server_status )
 puts status
-puts nc.properties
+puts nc.server_properties
 
 if status['status'] == 'ready'
   scan_id = nc.get_scan_by_name('Monthly Scan')
   scan_uuid = Oj.load( nc.launch_by_name( 'Monthly Scan', ['127.0.0.1']) )['scan_uuid']
 
-  while true do
+  loop do
    puts `clear`
    scan_status = Oj.load( nc.scan_details( scan_id ) )["info"]["status"] 
    puts " #{scan_id} - #{scan_uuid} - #{scan_status} "
@@ -64,8 +65,6 @@ if status['status'] == 'ready'
    end
   end
 end
-
-
 ```
 
 ## Installation
