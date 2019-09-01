@@ -1,7 +1,7 @@
 NessusClient
 =========
 
-Usable, fast, simple Ruby gem for Tenable Nessus Pro v7.x and v8.x
+Usable, fast, simple Ruby gem for Tenable Nessus Pro from v7.0.1 to  v8.3.1
 NessusClient was designed to be simple, fast and performant through communication with Nessus over REST interface.
 
 [![Gem Version](https://badge.fury.io/rb/nessus_client.svg)](https://badge.fury.io/rb/nessus_client)
@@ -30,15 +30,18 @@ Getting started
 
 ```ruby
 require 'nessus_client'
+require 'oj'
 
 nc = NessusClient.new( { :uri=>'https://localhost:8834', :username=>'username',:password=> 'password'} )
-status = Oj.load( nc.status )
+status = Oj.load( nc.server_status )
+puts status
+puts nc.server_properties
 
 if status['status'] == 'ready'
-  scan_id = nc.get_scan_by_name('weekly_scan')
-  scan_uuid = Oj.load( nc.launch_by_name( 'weekly_scan' ,['127.0.0.1']) )['scan_uuid']
+  scan_id = nc.get_scan_by_name('Monthly Scan')
+  scan_uuid = Oj.load( nc.launch_by_name( 'Monthly Scan', ['127.0.0.1']) )['scan_uuid']
 
-  while true do
+  loop do
    puts `clear`
    scan_status = Oj.load( nc.scan_details( scan_id ) )["info"]["status"] 
    puts " #{scan_id} - #{scan_uuid} - #{scan_status} "
@@ -48,13 +51,13 @@ if status['status'] == 'ready'
       puts " export request: #{export_request}"
       while true do
         puts `clear`
-        export_status = Oj.load( nc.export_status( export_request['token']) )["status"]
+        export_status = Oj.load( nc.token_status( export_request['token']) )["status"]
         puts " export status: #{export_status}"
         sleep 5
         if export_status == "ready"
           puts " downloading..."
           open("scan_report", "wb") do |file|
-            file.write(nc.export_download( scan_id, export_request['file'] ))
+            file.write(nc.token_download( export_request['token'] ))
           end
           exit 0
         end
@@ -62,7 +65,6 @@ if status['status'] == 'ready'
    end
   end
 end
-
 ```
 
 ## Installation

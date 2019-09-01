@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 
 
-describe Endpoint::Session do
+describe Resource::Session do
 
   before(:context) do
     RSpec::Mocks.with_temporary_scope do

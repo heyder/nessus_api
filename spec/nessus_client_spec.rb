@@ -45,11 +45,11 @@ describe NessusClient do
     it "is ready" do
       
       allow_any_instance_of( NessusClient::Request ).to receive( :get ).with( {path: '/server/status', headers: be_kind_of(Hash)}).and_return( Oj.dump({:code => 200, :status => 'ready'}, mode: :compat) )
-      allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+      allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
 
       nessus_client = NessusClient.new( @payload )
-      server_status = Oj.load( nessus_client.status )
+      server_status = Oj.load( nessus_client.server_status )
 
       expect( server_status ).to have_key( 'status' )
       expect( server_status["code"]  ).to eq( 200 )

@@ -1,7 +1,7 @@
 require_relative '../spec_helper'
 require 'excon'
 
-describe Endpoint::Scans do
+describe Resource::Scans do
     before(:context) do
         @payload = {
           uri: 'http://ness.us',
@@ -49,7 +49,7 @@ describe Endpoint::Scans do
                     "timestamp":1544146142
                 }, mode: :compat)
             )
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
       
             nessus_client = NessusClient.new( @payload )
@@ -74,7 +74,7 @@ describe Endpoint::Scans do
                 }, mode: :compat)
             )
                 
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
 
             nessus_client = NessusClient.new( @payload )
@@ -123,7 +123,7 @@ describe Endpoint::Scans do
                 }, mode: :compat)
             )
             
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
             allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new(
                 {
@@ -180,7 +180,7 @@ describe Endpoint::Scans do
             )
             
                 
-            allow_any_instance_of( Endpoint::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
+            allow_any_instance_of( Resource::Session ).to receive( :set_session ).with( 'username' , 'password' ).and_return( token='mock_auth_cookie' )
             allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )
 
             nessus_client = NessusClient.new( @payload )
