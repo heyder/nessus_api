@@ -133,7 +133,7 @@ describe Resource::Scans do
                 })
             )
             nessus_client = NessusClient.new( @payload )
-            scan = Oj.load( nessus_client.launch_by_name('KitchenSinkScan', ['127.0.0.1']) )
+            scan = nessus_client.launch_by_name('KitchenSinkScan', ['127.0.0.1'])
             expect(scan).to have_key('scan_uuid')
         end
     end

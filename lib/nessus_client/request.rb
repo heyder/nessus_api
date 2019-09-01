@@ -52,6 +52,7 @@ class NessusClient
     def delete( opts={} )
       http_request( :delete, opts )
     end
+
     # Parse a receiveid string against the URI stantard.
     # @param [String] uri A string to be validate URI.
     # @return [String] A string uri.
@@ -62,7 +63,6 @@ class NessusClient
     end
 
     private
-
     # @private HTTP request abstraction to be used.
     # @param [Symbol] method  The HTTP method to be used on the request.
     # @param [Hash] args  Parameters to use in the request.
@@ -72,28 +72,34 @@ class NessusClient
     # @option args [String] headers (nil) The headers to send.
     # @return [JSON] The body of the resposnse if there is any.
     def http_request( method=:get, args )
-      opts = {
-        :path => nil,
-        :payload => nil,
-        :query => nil,
-        :headers => nil
-      }.merge( args )
+      begin
 
-      connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
-      
-      body = opts[:payload] ? Oj.dump( opts[:payload], mode: :compat ) : ''
-      options = {
-        method: method,
-        path: opts.fetch(:path),
-        body: body,
-        query: opts.fetch(:query),
-        headers: opts.fetch(:headers),
-        expects: [200, 201]
-      }
-      response = connection.request( options )
-    
-      return response.body if response.body.length > 0
+        opts = {
+          :path => nil,
+          :payload => nil,
+          :query => nil,
+          :headers => nil
+        }.merge( args )
+  
+        connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
+        
+        body = opts[:payload] ? Oj.dump( opts[:payload], mode: :compat ) : ''
+        options = {
+          method: method,
+          path: opts.fetch(:path),
+          body: body,
+          query: opts.fetch(:query),
+          headers: opts.fetch(:headers),
+          expects: [200, 201]
+        }
 
+        response = connection.request( options )
+        response = Oj.load(response.body) #if response.body.length > 0
+      rescue Oj::ParseError => e
+        return response.body       
+      else
+        return response
+      end
     end
 
   end

@@ -5,9 +5,9 @@ Gem::Specification.new do |spec|
   spec.platform       = Gem::Platform::RUBY
   spec.version        = NessusClient::VERSION
   spec.date           = %q{2018-11-28}
-  spec.summary        = %q{Usable, fast, simple Ruby gem for Tenable Nessus Pro v6.x and v7.x }
+  spec.summary        = %q{Usable, fast, simple Ruby gem for Tenable Nessus Pro from v7.0.1 to v8.3.1.}
   spec.licenses       = ['MIT']  
-  spec.description    = "NessusClient was designed to be simple, fast and performant through communication with Nessus over REST interface."
+  spec.description    = "Usable, fast, simple Ruby gem for Tenable Nessus Pro from v7.0.1 to v8.3.1. NessusClient was designed to be simple, fast and performant through communication with Nessus over REST interface."
   spec.email          = 'eu@heyderandrade.org'
   spec.homepage       = 'https://github.com/heyder/nessus_client'
   spec.metadata["yard.run"] = "yri"
@@ -26,9 +26,9 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency( 'rspec', '~> 3.2' )
   spec.add_development_dependency( 'bundler', '~> 1.12' )
   spec.add_development_dependency( 'pry', '~> 0.12.2' )
+  spec.add_development_dependency( 'regexp-examples', '>= 1.5.0')
   # spec.add_development_dependency( 'simplecov', '~> 0.17.0' )
   # spec.add_development_dependency( 'codecov', '~> 0.1.14' )
   # spec.add_development_dependency( 'yard', '~> 0.9', '>= 0.9.20')
-  spec.add_development_dependency( 'regexp-examples', '>= 1.5.0')
 
 end
