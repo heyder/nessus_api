@@ -30,28 +30,27 @@ Getting started
 
 ```ruby
 require 'nessus_client'
-require 'oj'
 
 nc = NessusClient.new( { :uri=>'https://localhost:8834', :username=>'username',:password=> 'password'} )
-status = Oj.load( nc.server_status )
+status = nc.server_status 
 puts status
 puts nc.server_properties
 
 if status['status'] == 'ready'
   scan_id = nc.get_scan_by_name('Monthly Scan')
-  scan_uuid = Oj.load( nc.launch_by_name( 'Monthly Scan', ['127.0.0.1']) )['scan_uuid']
+  scan_uuid = nc.launch_by_name( 'Monthly Scan', ['127.0.0.1'])['scan_uuid']
 
   loop do
    puts `clear`
-   scan_status = Oj.load( nc.scan_details( scan_id ) )["info"]["status"] 
+   scan_status = nc.scan_details( scan_id )["info"]["status"] 
    puts " #{scan_id} - #{scan_uuid} - #{scan_status} "
    sleep 5
    if ["completed","canceled"].include? scan_status
-      export_request = Oj.load( nc.export_request( scan_id, "nessus" ))
+      export_request = nc.export_request(scan_id, "nessus" )
       puts " export request: #{export_request}"
       while true do
         puts `clear`
-        export_status = Oj.load( nc.token_status( export_request['token']) )["status"]
+        export_status =  nc.token_status( export_request['token'])["status"]
         puts " export status: #{export_status}"
         sleep 5
         if export_status == "ready"
