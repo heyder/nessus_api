@@ -1,5 +1,5 @@
 require 'oj'
-require 'pry'
+# require 'pry'
 require 'excon'
 require 'regexp-examples'
 # require 'simplecov'
