@@ -94,11 +94,11 @@ class NessusClient
         }
 
         response = connection.request( options )
-        response = Oj.load(response.body) #if response.body.length > 0
+        ret = Oj.load(response.body) #if response.body.length > 0
       rescue Oj::ParseError => e
         return response.body       
       else
-        return response
+        return ret
       end
     end
 

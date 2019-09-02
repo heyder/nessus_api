@@ -21,11 +21,11 @@ module Resource::Session # Namespace for Session resource.
 
     resp = self.request.post( {path: '/session', payload: payload, headers: self.headers} )
 
-    raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless resp.has_key?(:token)
-    raise NessusClient::Error.new( "The token doesnt match with the pattern." ) unless resp[:token].match(%r{(?<token>[a-z0-9]{48})})
+    raise NessusClient::Error.new( "Unable to authenticate. The response did not include a session token." ) unless resp.has_key?("token")
+    raise NessusClient::Error.new( "The token doesnt match with the pattern." ) unless resp["token"].match(%r{(?<token>[a-z0-9]{48})})
 
     begin
-      self.headers.update( 'X-Cookie' => 'token=' + resp[:token] )
+      self.headers.update( 'X-Cookie' => 'token=' + resp["token"] )
       @session = true
       self.headers.update( 'X-API-Token' => set_api_token() ) 
     rescue NessusClient::Error => err

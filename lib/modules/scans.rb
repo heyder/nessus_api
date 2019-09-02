@@ -42,7 +42,7 @@ module Resource::Scans  # Namespace for Scans resource.
   # @param [String] scan_name The name of the scan to look for.
   # @return [String, nil] The uuid of the scan.
   def get_scan_by_name( folder_id=nil, scan_name )
-    Oj.load(list_scans( folder_id ))["scans"].each do |scan|
+    list_scans( folder_id )["scans"].each do |scan|
       return scan['id'] if scan['name'] == scan_name
     end
   end
