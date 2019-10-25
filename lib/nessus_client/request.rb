@@ -28,7 +28,7 @@ class NessusClient
     # @option opts [String] path The URI path to perform the request.
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
-    # @return [JSON] The body of the resposnse if there is any.
+    # @return [Hash, String] The body of the resposnse if there is any.
     def get( opts={} )
       http_request( :get, opts )
     end
@@ -38,7 +38,7 @@ class NessusClient
     # @option opts [String] path The URI path to perform the request.
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
-    # @return [JSON] The body of the resposnse if there is any.
+    # @return [Hash, String] The body of the resposnse if there is any.
     def post( opts={} )
       http_request( :post, opts )
     end
@@ -48,7 +48,7 @@ class NessusClient
     # @option opts [String] path The URI path to perform the request.
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
-    # @return [JSON] The body of the resposnse if there is any.
+    # @return [Hash, String] The body of the resposnse if there is any.
     def delete( opts={} )
       http_request( :delete, opts )
     end
@@ -70,7 +70,7 @@ class NessusClient
     # @option args [String] payload (nil) The HTTP body to send.
     # @option args [String] query (nil) The URI query to send.
     # @option args [String] headers (nil) The headers to send.
-    # @return [JSON] The body of the resposnse if there is any.
+    # @return [Hash, String] The body of the resposnse if there is any.
     def http_request( method=:get, args )
       begin
 
@@ -96,7 +96,7 @@ class NessusClient
         response = connection.request( options )
         ret = Oj.load(response.body) #if response.body.length > 0
       rescue Oj::ParseError => e
-        return response.body       
+        return response.body
       else
         return ret
       end
