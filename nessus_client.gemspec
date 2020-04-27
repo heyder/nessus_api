@@ -20,7 +20,7 @@ Gem::Specification.new do |spec|
   spec.require_paths  = ["lib"]
   spec.required_ruby_version = '>= 2.5.1'
 
-  spec.add_dependency( 'excon', '~> 0.62' )
+  spec.add_dependency( 'excon', '>= 0.73.0' )
   spec.add_dependency( 'oj', '~> 3.7' )
 
   spec.add_development_dependency( 'rspec', '~> 3.2' )

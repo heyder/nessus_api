@@ -9,7 +9,7 @@ describe Resource::Session do
         :username => 'username',
         :password => 'password'
       }
-      @mock_auth_token = Oj.dump({:token => %r{[a-z0-9]{48}}.random_example })
+      @mock_auth_token = Oj.dump({:token => %r{[a-z0-9]{48}}.random_example }, mode: :compat)
       @mock_api_token = "return\"#{%r{([A-Z0-9]{8}-(?:[A-Z0-9]{4}-){3}[A-Z0-9]{12})}.random_example}\"\}"
       allow_any_instance_of( Excon::Connection ).to receive( :request ).and_return( Excon::Response.new({:body=> @mock_auth_token }) )
       allow_any_instance_of( NessusClient ).to receive(:new).and_return(  NessusClient.new( @payload ) )

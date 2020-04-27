@@ -10,7 +10,7 @@ describe NessusClient do
       ssl_verify_peer: false
     }
     token = %r{[a-z0-9]{48}}.random_example
-    @mock_auth_token = {:token => token }
+    @mock_auth_token = {"token" => token }
     @api_token = %r{([A-Z0-9]{8}-(?:[A-Z0-9]{4}-){3}[A-Z0-9]{12})}.random_example
     @mock_api_token = "return\"#{@api_token}\"\}"
   end
@@ -33,7 +33,7 @@ describe NessusClient do
       expect( nessus_client ).to be_instance_of NessusClient
       expect( nessus_client.has_session? ).to be(true)
       expect( nessus_client.headers ).to have_key('X-Cookie')
-      expect( nessus_client.headers['X-Cookie'] ).to eq("token=#{@mock_auth_token[:token]}")
+      expect( nessus_client.headers['X-Cookie'] ).to eq("token=#{@mock_auth_token["token"]}")
       expect( nessus_client.headers ).to have_key('X-API-Token')
       expect( nessus_client.headers['X-API-Token'] ).to eq(@api_token)
 
