@@ -5,7 +5,7 @@ class NessusClient
     # @param [String] msg The exception message.
     # @example
     #   NessusClient::Error.new('This is a custom error.')
-    def initialize( msg )
+    def initialize(msg)
       super
     end
   end

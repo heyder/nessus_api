@@ -2,7 +2,6 @@ require 'excon'
 require 'oj'
 
 class NessusClient
-
   # Abstract http request class for NessusClient. Provides some helper methods for perform HTTP requests.
   class Request
     # @return [String] The base url of the API.
@@ -10,17 +9,17 @@ class NessusClient
 
     # Default HTTP header to be used on the requests.
     DEFAULT_HEADERS = {
-      "User-Agent"    => "NessusClient::Request (https://rubygems.org/gems/nessus_client)",
-      "Content-Type"  => "application/json"
+      "User-Agent" => "NessusClient::Request (https://rubygems.org/gems/nessus_client)",
+      "Content-Type" => "application/json"
     }.freeze
 
     # @param [Hash] params the options to create a NessusClient::Request with.
     # @option params [String] :uri ('https://localhost:8834/') Nessus server to connect with
     # @option params [String] :ssl_verify_peer (true)  Whether should check valid SSL certificate
-    def initialize( params={} )
-      params = {:uri => nil }.merge( params )
+    def initialize(params = {})
+      params = { :uri => nil }.merge(params)
       @@ssl_verify_peer = params[:ssl_verify_peer] ? true : false
-      @url = @@url = NessusClient::Request.uri_parse( params.fetch(:uri) )
+      @url = @@url = NessusClient::Request.uri_parse(params.fetch(:uri))
     end
 
     # Perform a HTTP GET request.
@@ -29,8 +28,8 @@ class NessusClient
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
     # @return [Hash, String] The body of the resposnse if there is any.
-    def get( opts={} )
-      http_request( :get, opts )
+    def get(opts = {})
+      http_request(:get, opts)
     end
 
     # Perform a HTTP POST request.
@@ -39,8 +38,8 @@ class NessusClient
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
     # @return [Hash, String] The body of the resposnse if there is any.
-    def post( opts={} )
-      http_request( :post, opts )
+    def post(opts = {})
+      http_request(:post, opts)
     end
 
     # Perform a HTTP DELETE request.
@@ -49,20 +48,22 @@ class NessusClient
     # @option opts [String] payload The HTTP body to send.
     # @option opts [String] query The URI query to send.
     # @return [Hash, String] The body of the resposnse if there is any.
-    def delete( opts={} )
-      http_request( :delete, opts )
+    def delete(opts = {})
+      http_request(:delete, opts)
     end
 
     # Parse a receiveid string against the URI stantard.
     # @param [String] uri A string to be validate URI.
     # @return [String] A string uri.
-    def self.uri_parse( uri )
-      url = URI.parse( uri )
+    def self.uri_parse(uri)
+      url = URI.parse(uri)
       raise URI::InvalidURIError unless url.scheme
+
       return url.to_s
     end
 
     private
+
     # @private HTTP request abstraction to be used.
     # @param [Symbol] method  The HTTP method to be used on the request.
     # @param [Hash] args  Parameters to use in the request.
@@ -71,19 +72,18 @@ class NessusClient
     # @option args [String] query (nil) The URI query to send.
     # @option args [String] headers (nil) The headers to send.
     # @return [Hash, String] The body of the resposnse if there is any.
-    def http_request( method=:get, args )
+    def http_request(method = :get, args)
       begin
-
         opts = {
           :path => nil,
           :payload => nil,
           :query => nil,
           :headers => nil
-        }.merge( args )
-  
-        connection = Excon.new( @@url, {ssl_verify_peer: @@ssl_verify_peer} )
-        
-        body = opts[:payload] ? Oj.dump( opts[:payload], mode: :compat ) : ''
+        }.merge(args)
+
+        connection = Excon.new(@@url, { ssl_verify_peer: @@ssl_verify_peer })
+
+        body = opts[:payload] ? Oj.dump(opts[:payload], mode: :compat) : ''
         options = {
           method: method,
           path: opts.fetch(:path),
@@ -93,15 +93,13 @@ class NessusClient
           expects: [200, 201]
         }
 
-        response = connection.request( options )
-        ret = Oj.load(response.body) #if response.body.length > 0
+        response = connection.request(options)
+        ret = Oj.load(response.body) # if response.body.length > 0
       rescue Oj::ParseError => e
         return response.body
       else
         return ret
       end
     end
-
   end
-  
 end
