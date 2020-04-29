@@ -1,0 +1,173 @@
+AllCops:
+  TargetRubyVersion: 2.5
+
+Layout/ClosingParenthesisIndentation:
+  Enabled: false
+
+Layout/DotPosition:
+  EnforcedStyle: trailing
+
+# Fails on AppVeyor builds
+Layout/EndOfLine:
+  Enabled: false
+
+Layout/FirstParameterIndentation:
+  Enabled: false
+
+Layout/FirstArrayElementIndentation:
+  Enabled: false
+
+Layout/HeredocIndentation:
+  Enabled: false
+
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Layout/SpaceBeforeFirstArg:
+  Exclude:
+    - '*.gemspec'
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Lint/AmbiguousBlockAssociation:
+  Enabled: false
+
+Lint/AmbiguousRegexpLiteral:
+  Enabled: false
+
+Lint/AssignmentInCondition:
+  Enabled: false
+
+Lint/RaiseException:
+  Enabled: true
+
+Lint/StructNewOverride:
+  Enabled: true
+
+Lint/Void:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/BlockLength:
+  Enabled: false
+
+Metrics/LineLength:
+  Max: 100
+  IgnoredPatterns: ['^\s+?#']
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ModuleLength:
+  Enabled: false
+
+Naming/FileName:
+  Exclude:
+    - 'template-dir/hooks/*'
+    - 'Gemfile'
+    - 'Rakefile'
+    - '*.gemspec'
+
+# Renaming `has_something?` to `something?` obfuscates whether it is a "is-a" or
+# a "has-a" relationship.
+Naming/PredicateName:
+  Enabled: false
+
+# commit_sha1 is indeed how we want to write such a variable, so ignore this cop
+Naming/VariableNumber:
+  Enabled: false
+
+Style/BlockDelimiters:
+   Exclude:
+    - 'spec/**/*'
+
+# Enforcing this results in a lot of unnecessary indentation.
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/Documentation:
+  Exclude:
+    - 'spec/**/*'
+
+Style/ExponentialNotation:
+  Enabled: true
+
+Style/FormatString:
+  Enabled: false
+
+# There are a number of situations where this makes code less readable or
+# disrupts the visual flow of code.
+Style/GuardClause:
+  Enabled: false
+
+Style/HashEachMethods:
+  Enabled: true
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+# We want to allow multi-line lambdas using the `->` syntax which Rubocop
+# doesn't allow. We're also not too worried about people using `lambda` for
+# single-line lambdas either.
+Style/Lambda:
+  Enabled: false
+
+Style/Next:
+  Enabled: false
+
+# Calling .zero? instead of comparing `== 0` seems unnecessarily verbose
+Style/NumericPredicate:
+  Enabled: false
+
+Style/ParallelAssignment:
+  Enabled: false
+
+# Prefer curly braces except for %i/%w/%W, since those return arrays.
+Style/PercentLiteralDelimiters:
+  PreferredDelimiters:
+    '%': '{}'
+    '%i': '[]'
+    '%q': '{}'
+    '%Q': '{}'
+    '%r': '{}'
+    '%s': '()'
+    '%w': '[]'
+    '%W': '[]'
+    '%x': '{}'
+
+Style/RescueModifier:
+  Exclude:
+    - 'bin/overcommit'
+
+Style/SignalException:
+  Enabled: false
+
+# Forcing a particular name (e.g. |a, e|) for inject methods prevents you from
+# choosing intention-revealing names.
+Style/SingleLineBlockParams:
+  Enabled: false
+
+Style/SpecialGlobalVars:
+  Enabled: false
+
+Style/SymbolArray:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  Enabled: false
+
+Style/TrailingCommaInArrayLiteral:
+  Enabled: false
+
+Style/TrailingCommaInHashLiteral:
+  Enabled: false
