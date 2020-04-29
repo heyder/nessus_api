@@ -19,6 +19,14 @@ PreCommit:
   RuboCop:
     enabled: true
     on_warn: fail # Treat all warnings as failures
+PreCommit:
+  YardCoverage:
+    enabled: true
+    min_coverage_percentage: 80
+PrePush:
+  RSpec:
+    enabled: true
+
 #
 #  TrailingWhitespace:
 #    enabled: true
