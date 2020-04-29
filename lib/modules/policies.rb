@@ -1,7 +1,10 @@
-module Resource::Policies # Namespace for Policies resource.
+# frozen_string_literal: true
+
+# Namespace for Policies resource.
+module Resource::Policies
   # List the scan polices.
   # @return [JSON]
   def policies
-    self.request.get({ :path => "/policies", :headers => self.headers })
+    request.get({ path: '/policies', headers: headers })
   end
 end

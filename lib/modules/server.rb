@@ -1,13 +1,16 @@
-module Resource::Server # Namespace for Server resource.
+# frozen_string_literal: true
+
+# Namespace for Server resource.
+module Resource::Server
   # Returns the server status.
-  # @return [JSON] Returns the server status (loading, ready, corrupt-db, feed-expired, eval-expired, locked, register, register-locked, download-failed, feed-error).
+  # @return [JSON] Returns the server status
   def server_status
-    self.request.get({ :path => "/server/status", :headers => self.headers })
+    request.get({ path: '/server/status', headers: headers })
   end
 
   # Returns the server version and other properties.
   # @return [JSON] Returns the server properties
   def server_properties
-    self.request.get({ :path => "/server/properties", :headers => self.headers })
+    request.get({ path: '/server/properties', headers: headers })
   end
 end

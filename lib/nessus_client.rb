@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'nessus_client/version'
 require_relative 'nessus_client/exception'
 require_relative 'nessus_client/resource'
 
-Dir[File.join(__dir__, 'modules', '*.rb')].each { |file| require file }
+Dir[File.join(__dir__, 'modules', '*.rb')].sort.each { |file| require file }
 
 # Nessus resource abstraction.
 class NessusClient
@@ -22,7 +24,7 @@ class NessusClient
   include Resource::Session
   include Resource::Tokens
 
-  autoload :Request, "nessus_client/request"
+  autoload :Request, 'nessus_client/request'
 
   # @param [Hash] params the options to create a NessusClient with.
   # @option params [String] :uri ('https://localhost:8834/') Nessus resource to connect with
@@ -37,16 +39,16 @@ class NessusClient
       ssl_verify_peer: true
     }
     params = default_params.merge(params)
-    req_params = params.select { |key, value| [:uri, :ssl_verify_peer].include?(key) }
+    req_params = params.select { |key, _value| %i[uri ssl_verify_peer].include?(key) }
 
     @request = NessusClient::Request.new(req_params)
     @headers = NessusClient::Request::DEFAULT_HEADERS.dup
-    self.set_session(params.fetch(:username), params.fetch(:password))
+    set_session(params.fetch(:username), params.fetch(:password))
   end
 
   # Gets NessusClient::Session authentication status.
   # @return [Boolean] whether NessusClient has successfully authenticated.
   def has_session?
-    self.session
+    session
   end
 end

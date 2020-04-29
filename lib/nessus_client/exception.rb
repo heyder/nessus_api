@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NessusClient
   # Abstract Error class for NessusClient.
   class Error < ::StandardError

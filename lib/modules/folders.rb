@@ -1,15 +1,18 @@
-module Resource::Folders # Namespace for Folders resource.
+# frozen_string_literal: true
+
+# Namespace for Folders resource.
+module Resource::Folders
   # Get the list of folders from the resource.
   # @return [JSON]
   def list_folders
-    self.request.get({ :path => "/folders", :headers => self.headers })
+    request.get({ path: '/folders', headers: headers })
   end
 
   # Create a folder into the resource.
   # @param [String] folder_name The name of the folder the will be created.
   # @return [JSON]
   def create_folder(folder_name)
-    payload = { :name => folder_name }
-    self.request.post({ :path => "/folders", :payload => payload, :headers => self.headers })
+    payload = { name: folder_name }
+    request.post({ path: '/folders', payload: payload, headers: headers })
   end
 end

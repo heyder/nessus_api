@@ -1,4 +1,7 @@
-module Resource::Session # Namespace for Session resource.
+# frozen_string_literal: true
+
+# Namespace for Session resource.
+module Resource::Session
   # @return [Boolean] whether has a session.
   attr_reader :session
 
@@ -16,29 +19,29 @@ module Resource::Session # Namespace for Session resource.
       password: password
     }
 
-    resp = self.request.post({ path: '/session', payload: payload, headers: self.headers })
-
-    raise NessusClient::Error.new("Unable to authenticate. The response did not include a session token.") unless resp.has_key?("token")
-    raise NessusClient::Error.new("The token doesnt match with the pattern.") unless resp["token"].match(%r{(?<token>[a-z0-9]{48})})
-
-    begin
-      self.headers.update('X-Cookie' => 'token=' + resp["token"])
-      @session = true
-      self.headers.update('X-API-Token' => set_api_token())
-    rescue NessusClient::Error => err
-      puts err.message
-    ensure
-      return
+    resp = request.post({ path: '/session', payload: payload, headers: headers })
+    # binding.pry
+    if !resp.key?('token')
+      raise NessusClient::Error, 'Unable to authenticate.'
+    elsif !resp['token'].match(/(?<token>[a-z0-9]{48})/)
+      raise NessusClient::Error, 'The token doesnt match with the pattern.'
     end
+
+    headers.update('X-Cookie' => 'token=' + resp['token'])
+    @session = true
+    api_token = set_api_token
+    headers.update('X-API-Token' => api_token) if api_token
+  rescue NessusClient::Error => e
+    raise e
   end
-  alias_method :session_create, :set_session
+  alias session_create set_session
 
   # Destroy the current session.
   def destroy
-    self.request.delete({ path: '/session', headers: self.headers })
+    request.delete({ path: '/session', headers: headers })
     @session = false
- end
-  alias_method :logout, :destroy
+  end
+  alias logout destroy
 
   private
 
@@ -46,11 +49,14 @@ module Resource::Session # Namespace for Session resource.
   # @raise [NessusClient::Error] Unable to get API Token.
   # @todo To get it direct from the session authentication on v6.x
   def set_api_token
-    response = self.request.get({ path: "/nessus6.js", headers: self.headers })
-    response.match(%r{return"(\w{8}-(?:\w{4}-){3}\w{12})"\}})
-
-    raise NessusClient::Error.new("Unable to get API Token. Some features won't work.") unless $1
-
-    return $1
+    response = request.get({ path: '/nessus6.js', headers: headers })
+    response.match(/return"(\w{8}-(?:\w{4}-){3}\w{12})"\}/)
+    unless  Regexp.last_match(1)
+      raise NessusClient::Error, "Unable to get API Token. Some features won't work."
+    end
+  rescue NessusClient::Error => e
+    puts e.message
+  else
+    Regexp.last_match(1)
   end
 end

@@ -1,4 +1,7 @@
-module Resource::Tokens # Namespace for tokens resource.
+# frozen_string_literal: true
+
+# Namespace for tokens resource.
+module Resource::Tokens
   # Check the status of a export request
   # @param [String] export_uuid The export uuid string.
   # @return [JSON]
@@ -6,7 +9,7 @@ module Resource::Tokens # Namespace for tokens resource.
   #   export_status = nc.export_status( "73376c41-1508-46b7-8587-483d159cd956" )
   #   return true if export_status["status"] == "ready"
   def token_status(export_uuid)
-    self.request.get({ :path => "/tokens/#{export_uuid}/status", :headers => self.headers })
+    request.get({ path: "/tokens/#{export_uuid}/status", headers: headers })
   end
 
   # Check the download of a export request
@@ -18,6 +21,6 @@ module Resource::Tokens # Namespace for tokens resource.
   #     file.write( export )
   #   end
   def token_download(export_uuid)
-    self.request.get({ :path => "/tokens/#{export_uuid}/download", :headers => self.headers })
+    request.get({ path: "/tokens/#{export_uuid}/download", headers: headers })
   end
 end
