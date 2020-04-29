@@ -6,7 +6,7 @@ require 'excon'
 require 'regexp-examples'
 require 'simplecov'
 SimpleCov.start
-#require 'codecov'
+require 'codecov'
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
 
 Dir[File.join(__dir__, '../lib', '*.rb')].sort_by.each do |file|
