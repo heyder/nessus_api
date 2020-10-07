@@ -44,6 +44,16 @@ class NessusClient
     def post(opts = {})
       http_request(opts, :post)
     end
+    
+    # Perform a HTTP PUT request.
+    # @param [Hash] opts to use in the request.
+    # @option opts [String] path The URI path to perform the request.
+    # @option opts [String] payload The HTTP body to send.
+    # @option opts [String] query The URI query to send.
+    # @return [Hash, String] The body of the resposnse if there is any.
+    def put(opts = {})
+      http_request(opts, :put)
+    end
 
     # Perform a HTTP DELETE request.
     # @param [Hash] opts to use in the request.
