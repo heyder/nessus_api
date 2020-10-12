@@ -1,4 +1,3 @@
-require 'json'
 # frozen_string_literal: true
 # Namespace for Policies resource.
 module Resource::Policies
