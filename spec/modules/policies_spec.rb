@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 require_relative '../spec_helper'
 
 describe Resource::Policies do
@@ -82,6 +81,7 @@ describe Resource::Policies do
 
     @policy_name = "policy"
   end
+
   context '.policies' do
     it 'successful get all policies' do
       policies = @nessus_client.policies
