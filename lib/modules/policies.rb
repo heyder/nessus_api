@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # Namespace for Policies resource.
 module Resource::Policies
   # List the scan polices.
@@ -11,7 +12,7 @@ module Resource::Policies
   # @param [String] policy name.
   # @return policy_id
   def get_policy_id_by_name(policy_name)
-    policies()['policies'].each do |policy|
+    policies['policies'].each do |policy|
       return policy['id'] if policy['name'] == policy_name
     end
   end
@@ -20,14 +21,14 @@ module Resource::Policies
   # @param [String] policy name.
   # @return [JSON]
   def get_policy_by_name(policy_name)
-      return request.get({ path: "/policies/#{get_policy_id_by_name(policy_name)}", headers: headers })
+    request.get({ path: "/policies/#{get_policy_id_by_name(policy_name)}", headers: headers })
   end
 
   # Get a list of credentials.
   # @param [String] policy name.
   # @return [JSON]
   def list_credentials_by_policy_name(policy_name)
-    get_policy_by_name(policy_name)["credentials"]
+    get_policy_by_name(policy_name)['credentials']
   end
 
   # update a scan policy.
@@ -36,6 +37,6 @@ module Resource::Policies
   # @return nil
   def update_policy_by_name(policy_name, payload)
     id = get_policy_id_by_name(policy_name)
-    result = request.put({ path: "/policies/#{id}", headers: headers, payload: payload })
+    request.put({ path: "/policies/#{id}", headers: headers, payload: payload })
   end
 end
