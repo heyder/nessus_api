@@ -21,7 +21,8 @@ module Resource::Policies
   # @param [String] policy name.
   # @return [JSON]
   def get_policy_by_name(policy_name)
-    request.get({ path: "/policies/#{get_policy_id_by_name(policy_name)}", headers: headers })
+    policy_id = get_policy_id_by_name(policy_name)
+    request.get({ path: "/policies/#{policy_id}", headers: headers })
   end
 
   # Get a list of credentials.
