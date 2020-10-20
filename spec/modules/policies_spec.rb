@@ -104,25 +104,23 @@ describe Resource::Policies do
 
     it 'successful get all credentials of one policy' do
       policy = @nessus_client.list_credentials_by_policy_name(@policy_name)
-      expect(@policy).to have_key('credentials')
+      expect(policy).to have_key('credentials')
     end
 
     it 'update a policy' do
       payload = {
-        "credentials":{
-           "add":{
-              
-           },
-           "edit":{
-              "962":{
-                 "username":"usernameasda2",
-                 "auth_method":"Password",
-                 "password":"password1"
-              }
-           },
-           "delete":{
-              
-           }     
+        "credentials": {
+          "add": {},
+          "edit": {
+            "962": {
+              "username": 'usernameasda2',
+              "auth_method": 'Password',
+              "password": 'password1'
+            }
+          },
+          "delete": {}
+        }
+      }
       policy = @nessus_client.update_policy_by_name(@policy_name, payload)
       expect(policy).to be_nil
     end
