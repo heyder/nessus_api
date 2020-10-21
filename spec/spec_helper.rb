@@ -5,6 +5,7 @@ require 'pry'
 require 'excon'
 require 'regexp-examples'
 require 'simplecov'
+require 'nokogiri'
 SimpleCov.start
 require 'codecov'
 SimpleCov.formatter = SimpleCov::Formatter::Codecov
