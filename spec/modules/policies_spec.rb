@@ -40,16 +40,17 @@ describe Resource::Policies do
 
     @credential_id = '962'
 
-    @default_credential = { 
+    @default_credential = {
       add: {},
       edit:
-        { 
+        {
           "#{@credential_id}":
             {
               username: 'default_username',
               auth_method: 'Password',
-              password: 'default_password' }
-            },
+              password: 'default_password'
+            }
+        },
       delete: {}
     }
 
@@ -83,7 +84,6 @@ describe Resource::Policies do
     ).and_return(NessusClient.new(@payload))
 
     @nessus_client = NessusClient.new(@payload)
-
   end
 
   context '.policies' do
@@ -131,7 +131,7 @@ describe Resource::Policies do
           "delete": {}
         }
       }
-      # TODO - test whether the policy has been updated.
+      # TODO: - test whether the policy has been updated.
       policy = @nessus_client.update_policy_by_name(@policy_name, new_credential)
       expect(policy).to be_nil
     end
