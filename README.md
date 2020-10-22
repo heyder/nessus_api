@@ -12,7 +12,7 @@ NessusClient was designed to be simple, fast and performant through communicatio
 **Ruby gem for Nessus API**
 
   * [Source Code](https://github.com/heyder/nessus_client)
-  * [API documentation](https://rubydoc.info/github/heyder/nessus_client/master)
+  * [API documentation](https://rubydoc.info/github/heyder/nessus_client)
   * [Rubygem](https://rubygems.org/gems/nessus_client)
 
 
