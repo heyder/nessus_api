@@ -34,7 +34,7 @@ module Resource::Scans
   # @param [Array<String>] targets comma separeted new target to be scanned.
   # @return [JSON]
   def launch_by_name(scan_name, targets = [])
-    scan_id = get_scan_by_name(scan_name)
+    scan_id = get_scan_by_name(scan_name)['id']
     launch(scan_id, targets)
   end
 
@@ -43,8 +43,21 @@ module Resource::Scans
   # @param [String] scan_name The name of the scan to look for.
   # @return [String, nil] The uuid of the scan.
   def get_scan_by_name(scan_name, folder_id = nil)
-    list_scans(folder_id)['scans'].each do |scan|
-      return scan['id'] if scan['name'] == scan_name
-    end
+    scans = list_scans(folder_id)['scans']
+    return [] if scans.nil?
+    return scans.detect { |scan| scan['name'] == scan_name}
   end
+
+  def import_scan(raw, filename)
+    fileuploaded = add_attach_raw(raw, filename)["fileuploaded"]
+    payload = {"file":fileuploaded}
+    request.post({ path: "/scans/import", payload: payload, headers: headers })
+  end
+
+  def create_scan(payload)
+    # payload = { alt_targets: targets } unless targets.empty?
+    
+    request.post({ path: "/scans", payload: payload, headers: headers })
+  end
+
 end
