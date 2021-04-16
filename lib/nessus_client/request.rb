@@ -44,7 +44,7 @@ class NessusClient
     def post(opts = {})
       http_request(opts, :post)
     end
-    
+
     # Perform a HTTP PUT request.
     # @param [Hash] opts to use in the request.
     # @option opts [String] path The URI path to perform the request.
