@@ -42,29 +42,4 @@ describe NessusClient do
       expect(nessus_client.headers['X-API-Token']).to eq(@api_token)
     end
   end
-
-  context 'status' do
-    it 'is ready' do
-      allow_any_instance_of(NessusClient::Request).to receive(:get).with(
-        { path: '/server/status', headers: be_kind_of(Hash) }
-      ).and_return(
-        Oj.dump({ code: 200, status: 'ready' }, mode: :compat)
-      )
-      allow_any_instance_of(Resource::Session).to receive(:set_session).with(
-        'username',
-        'password'
-      ).and_return(
-        'mock_auth_cookie'
-      )
-      allow_any_instance_of(NessusClient).to receive(:new).and_return(
-        NessusClient.new(@payload)
-      )
-
-      nessus_client = NessusClient.new(@payload)
-      server_status = Oj.load(nessus_client.server_status)
-
-      expect(server_status).to have_key('status')
-      expect(server_status['code']).to eq(200)
-    end
-  end
 end
